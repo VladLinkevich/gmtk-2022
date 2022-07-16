@@ -1,21 +1,36 @@
-﻿using Code.Data;
+﻿using System;
+using Code.Data;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Game
 {
-  public class LevelLoader
+  public interface ILoadLevel
   {
+    event Action Complete;
+  }
+
+  public class LevelLoader : ILoadLevel, IInitializable
+  {
+    public event Action Complete;
+
     private readonly ICardFactory _cardFactory;
 
     public LevelLoader(ICardFactory cardFactory)
     {
       _cardFactory = cardFactory;
+    }
 
-      GameObject archer = _cardFactory.CreatePlayerCard(CardType.Archer);
-      GameObject mage = _cardFactory.CreatePlayerCard(CardType.Mage);
+    public void Initialize()
+    {
+      _cardFactory.CreatePlayerCard(CardType.Archer);
+      _cardFactory.CreatePlayerCard(CardType.Mage);
+      _cardFactory.CreatePlayerCard(CardType.Mage);
+      _cardFactory.CreatePlayerCard(CardType.Mage);
+      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
+      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
 
-      archer.transform.localPosition = Vector3.left;
-      mage.transform.localPosition = Vector3.right;
+      Complete?.Invoke();
     }
   }
 }

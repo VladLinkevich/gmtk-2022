@@ -9,18 +9,23 @@ namespace Code.Installer
     {
       BindLevelLoader();
       BindFactory();
+      BindHandlers();
     }
 
     private void BindFactory() =>
       Container
-        .Bind<ICardFactory>()
-        .To<CardFactory>()
-        .AsSingle()
-        .NonLazy();
+        .BindInterfacesTo<CardFactory>()
+        .AsSingle();
 
     private void BindLevelLoader() => 
       Container
-        .Bind<LevelLoader>()
+        .BindInterfacesTo<LevelLoader>()
+        .AsSingle()
+        .NonLazy();
+
+    private void BindHandlers() =>
+      Container
+        .Bind<CardPositioner>()
         .AsSingle()
         .NonLazy();
   }

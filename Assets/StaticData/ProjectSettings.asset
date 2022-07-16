@@ -17,3 +17,6 @@ MonoBehaviour:
       type: 3}
     EnemyCard: {fileID: 4408819614284572028, guid: 988c6e3a7cd75644eb03d1c8a004f92b,
       type: 3}
+  CardPositioner:
+    Offset: 0.2
+    Duration: 0.2

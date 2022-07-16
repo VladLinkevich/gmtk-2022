@@ -12,9 +12,17 @@ namespace Code.StaticData
   {
     public List<SideStaticData> Sides;
 
-    public SideStaticData GetCardData(SideType type) => 
-      Sides.FirstOrDefault(x => x.Type == type);
-    
+    public SideStaticData GetSideData(SideType type)
+    {
+      foreach (SideStaticData side in Sides)
+      {
+        if (side.Type == type)
+          return side;
+      }
+
+      return null;
+    }
+
 #if UNITY_EDITOR
 
     [Button]

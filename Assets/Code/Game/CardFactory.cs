@@ -1,26 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using Code.Data;
 using Code.Facade;
 using Code.Services.ResourceLoadService;
 using Code.StaticData;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code.Game
 {
   public interface ICardFactory
   {
-    event Action<GameObject> PlayerCardCreate;
+    public event Action<GameObject> PlayerCardCreate;
     GameObject CreatePlayerCard(CardType type);
+    GameObject CreateEnemyCard(CardType type);
   }
 
-  public class CardFactory : ICardFactory
+  public interface IEnemyHandler
+  {
+    event Action<GameObject> EnemyCardCreate;
+    List<GameObject> EnemyCard { get; }
+  }
+
+  public interface IPlayerHandler
+  {
+    event Action<GameObject> PlayerCardCreate;
+    List<GameObject> PlayerCard { get; }
+  }
+
+  public class CardFactory : ICardFactory, IEnemyHandler, IPlayerHandler
   {
     private const string PlayerRootTag = "player_root";
     private const string EnemyRootTag = "enemy_root";
     
     public event Action<GameObject> PlayerCardCreate;
-    
+    public event Action<GameObject> EnemyCardCreate;
+
+    public List<GameObject> PlayerCard { get; private set; } = new List<GameObject>();
+    public List<GameObject> EnemyCard { get; private set; } = new List<GameObject>();
+
     private readonly IResourceLoader _loader;
     private readonly CardHandler _dataHandler;
     private readonly SideHandler _sideHandler;
@@ -48,27 +65,50 @@ namespace Code.Game
       CardData data = _dataHandler.GetCardData(type);
       GameObject card = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
 
-      CardFacade facade = card.GetComponent<CardFacade>();
-      facade.Character.sprite = data.Character;
-      facade.Label.material.color = data.Color;
-      facade.HpBarFacade.Set(data.Hp);
+      SetupCard(card, data);
 
-      SetupDice(facade.DiceFacade, data.Sides, data.Color);
-
+      PlayerCard.Add(card);
       PlayerCardCreate?.Invoke(card);
       
       return card;
     }
 
-    private void SetupDice(DiceFacade facade, SideData[] sides, Color color)
+    public GameObject CreateEnemyCard(CardType type)
     {
-      facade.Renderer.material.color = color;
-      for (int i = 0, end = sides.Length; i < end; ++i)
-      {
-        SideStaticData data = _sideHandler.GetCardData(sides[i].Type);
+        CardData data = _dataHandler.GetCardData(type);
+        GameObject card = UnityEngine.Object.Instantiate(_settings.EnemyCard, _enemyRoot);
         
-        facade.Sides[i].Renderer.sprite = data.Icon;
-        facade.Sides[i].Value.Set(sides[i].Value);
+        SetupCard(card, data);
+
+        EnemyCard.Add(card);
+        EnemyCardCreate?.Invoke(card);
+      
+        return card;
+    }
+
+    private void SetupCard(GameObject card, CardData data)
+    {
+      CardFacade facade = card.GetComponent<CardFacade>();
+      SetupCardFacade(facade, data);
+      SetupDice(facade.DiceFacade, data);
+    }
+
+    private void SetupCardFacade(CardFacade facade, CardData data)
+    {
+      facade.Character.sprite = data.Character;
+      facade.Label.material.color = data.Color;
+      facade.HpBarFacade.Set(data.Hp);
+    }
+
+    private void SetupDice(DiceFacade facade, CardData data)
+    {
+      facade.Renderer.material.color = data.Color;
+      for (int i = 0, end = data.Sides.Length; i < end; ++i)
+      {
+        SideStaticData staticData = _sideHandler.GetSideData(data.Sides[i].Type);
+        
+        facade.Sides[i].Renderer.sprite = staticData.Icon;
+        facade.Sides[i].Value.Set(data.Sides[i].Value);
       }
     }
 
