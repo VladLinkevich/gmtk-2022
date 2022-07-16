@@ -10,33 +10,45 @@ namespace Code.Game
 {
   public interface ICardFactory
   {
-    public event Action<GameObject> PlayerCardCreate;
     GameObject CreatePlayerCard(CardType type);
     GameObject CreateEnemyCard(CardType type);
   }
 
   public interface IEnemyHandler
   {
-    event Action<GameObject> EnemyCardCreate;
-    List<GameObject> EnemyCard { get; }
+    event Action<CardFacade> EnemyCardCreate;
+    List<CardFacade> EnemyCard { get; }
   }
 
   public interface IPlayerHandler
   {
-    event Action<GameObject> PlayerCardCreate;
-    List<GameObject> PlayerCard { get; }
+    event Action<CardFacade> PlayerCardCreate;
+    List<CardFacade> PlayerCard { get; }
   }
 
-  public class CardFactory : ICardFactory, IEnemyHandler, IPlayerHandler
+  public interface IPlayerDiceHandler
+  {
+    List<DiceFacade> PlayerDice { get; }
+  }
+
+  public interface IEnemyDiceHandler
+  {
+    List<DiceFacade> EnemyDice { get; }
+  }
+
+  public class CardFactory : ICardFactory, IEnemyHandler, IPlayerHandler, IPlayerDiceHandler, IEnemyDiceHandler
   {
     private const string PlayerRootTag = "player_root";
     private const string EnemyRootTag = "enemy_root";
     
-    public event Action<GameObject> PlayerCardCreate;
-    public event Action<GameObject> EnemyCardCreate;
+    public event Action<CardFacade> PlayerCardCreate;
+    public event Action<CardFacade> EnemyCardCreate;
 
-    public List<GameObject> PlayerCard { get; private set; } = new List<GameObject>();
-    public List<GameObject> EnemyCard { get; private set; } = new List<GameObject>();
+    public List<CardFacade> PlayerCard { get; private set; } = new List<CardFacade>();
+    public List<CardFacade> EnemyCard { get; private set; } = new List<CardFacade>();
+    
+    public List<DiceFacade> PlayerDice { get; private set; } = new List<DiceFacade>();
+    public List<DiceFacade> EnemyDice { get; private set; } = new List<DiceFacade>();
 
     private readonly IResourceLoader _loader;
     private readonly CardHandler _dataHandler;
@@ -65,10 +77,15 @@ namespace Code.Game
       CardData data = _dataHandler.GetCardData(type);
       GameObject card = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
 
-      SetupCard(card, data);
+      CardFacade facade = card.GetComponent<CardFacade>();
+      
+      SetupCardFacade(facade, data);
+      SetupDice(facade.DiceFacade, data);
 
-      PlayerCard.Add(card);
-      PlayerCardCreate?.Invoke(card);
+      PlayerCard.Add(facade);
+      PlayerDice.Add(facade.DiceFacade);
+      
+      PlayerCardCreate?.Invoke(facade);
       
       return card;
     }
@@ -77,20 +94,16 @@ namespace Code.Game
     {
         CardData data = _dataHandler.GetCardData(type);
         GameObject card = UnityEngine.Object.Instantiate(_settings.EnemyCard, _enemyRoot);
-        
-        SetupCard(card, data);
 
-        EnemyCard.Add(card);
-        EnemyCardCreate?.Invoke(card);
+        CardFacade facade = card.GetComponent<CardFacade>();
+        SetupCardFacade(facade, data);
+        SetupDice(facade.DiceFacade, data);
+
+        EnemyCard.Add(facade);
+        EnemyDice.Add(facade.DiceFacade);
+        EnemyCardCreate?.Invoke(facade);
       
         return card;
-    }
-
-    private void SetupCard(GameObject card, CardData data)
-    {
-      CardFacade facade = card.GetComponent<CardFacade>();
-      SetupCardFacade(facade, data);
-      SetupDice(facade.DiceFacade, data);
     }
 
     private void SetupCardFacade(CardFacade facade, CardData data)

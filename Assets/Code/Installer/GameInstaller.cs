@@ -1,4 +1,5 @@
 ﻿using Code.Game;
+using Code.StateMachine;
 using Zenject;
 
 namespace Code.Installer
@@ -10,6 +11,8 @@ namespace Code.Installer
       BindLevelLoader();
       BindFactory();
       BindHandlers();
+      BindStateMachine();
+      BindDice();
     }
 
     private void BindFactory() =>
@@ -28,5 +31,31 @@ namespace Code.Installer
         .Bind<CardPositioner>()
         .AsSingle()
         .NonLazy();
+
+
+    private void BindDice() =>
+      Container
+        .Bind<IDiceMover>()
+        .To<DiceMover>()
+        .AsSingle()
+        .NonLazy();
+
+    private void BindStateMachine()
+    {
+      Container
+        .Bind<RoundStateMachine>()
+        .AsSingle()
+        .NonLazy();
+
+      BindState();
+    }
+
+    private void BindState()
+    {
+      Container
+        .Bind<EnemyRound>()
+        .AsSingle()
+        .NonLazy();
+    }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.Facade;
 using DG.Tweening;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace Code.Game
       CalculatePosition(_enemyHandler.EnemyCard);
     }
 
-    private void CalculatePosition(List<GameObject> cards)
+    private void CalculatePosition(List<CardFacade> cards)
     {
       float border = ((cards.Count + (cards.Count - 1) * _settings.Offset) - 1) / 2;
       
