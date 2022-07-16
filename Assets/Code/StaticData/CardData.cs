@@ -1,4 +1,5 @@
 ﻿using Code.Data;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Code.StaticData
@@ -12,5 +13,11 @@ namespace Code.StaticData
     
     [Range(1, 5)]
     public int Hp;
+    
+    [ValidateInput("D6")]
+    public SideData[] Sides;
+
+    private bool D6(SideData[] sides) => 
+      sides.Length == 6;
   }
 }

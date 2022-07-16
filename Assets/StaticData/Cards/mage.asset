@@ -16,3 +16,16 @@ MonoBehaviour:
   Character: {fileID: 21300000, guid: 1ebd8aa77a5741b49a58c08ff90edd95, type: 3}
   Color: {r: 0.19999999, g: 0.6517553, b: 0.77254903, a: 1}
   Hp: 2
+  Sides:
+  - Type: 1
+    Value: 2
+  - Type: 1
+    Value: 2
+  - Type: 1
+    Value: 1
+  - Type: 1
+    Value: 1
+  - Type: 0
+    Value: 1
+  - Type: 0
+    Value: 1
