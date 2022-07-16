@@ -6,7 +6,7 @@ namespace Code.Game
 {
   public interface IArrow
   {
-    ArrowRenderer Prefab { get; }
+    ArrowRenderer Instance { get; }
   }
 
   public class ObjectFactory : IArrow
@@ -16,7 +16,7 @@ namespace Code.Game
     private readonly ArrowRenderer _arrow;
     private Transform _root;
 
-    ArrowRenderer IArrow.Prefab => _arrow;
+    ArrowRenderer IArrow.Instance => _arrow;
 
     public ObjectFactory(
       IResourceLoader resourceLoader,

@@ -11,6 +11,7 @@ namespace Code.Installer
     public CardPositioner.Settings CardPositioner;
     public DiceMover.Settings DiceMover;
     public ObjectFactory.Settings ObjectFactory;
+    public PickTarget.Settings PickTarget;
 
     public override void InstallBindings()
     {
@@ -18,6 +19,7 @@ namespace Code.Installer
       Container.BindInstance(CardPositioner).IfNotBound();
       Container.BindInstance(DiceMover).IfNotBound();
       Container.BindInstance(ObjectFactory).IfNotBound();
+      Container.BindInstance(PickTarget).IfNotBound();
     }
   }
 }

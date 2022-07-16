@@ -18,9 +18,9 @@ namespace Code.Installer
 
     private void BindEnemyLogic() =>
       Container
-        .Bind<PickTarget>()
-        .AsSingle()
-        .NonLazy();
+        .Bind<IPickTarget>()
+        .To<PickTarget>()
+        .AsSingle();
 
     private void BindFactory()
     {

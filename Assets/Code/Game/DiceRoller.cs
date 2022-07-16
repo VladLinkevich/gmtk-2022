@@ -25,8 +25,6 @@ namespace Code.Game
 
       while (dice.Any(x => x.Die.isRolling)) 
         await UniTask.NextFrame();
-
-      Debug.Log("Wait complete!");
     }
   }
 }
