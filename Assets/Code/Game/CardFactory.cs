@@ -51,6 +51,7 @@ namespace Code.Game
       CardFacade facade = card.GetComponent<CardFacade>();
       facade.Character.sprite = data.Character;
       facade.Label.material.color = data.Color;
+      facade.HpBarFacade.Set(data.Hp);
 
       SetupDice(facade.DiceFacade, data.Sides, data.Color);
 

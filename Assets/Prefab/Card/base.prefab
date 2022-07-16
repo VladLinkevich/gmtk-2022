@@ -83,6 +83,7 @@ MonoBehaviour:
   Character: {fileID: 8827796774623548779}
   Label: {fileID: 1203744944760509552}
   DiceFacade: {fileID: 6054229231802019178}
+  HpBarFacade: {fileID: 1725154651330899311}
 --- !u!1 &1961051429372143055
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,6 +643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9174482164861267984}
+  - component: {fileID: 1725154651330899311}
   m_Layer: 0
   m_Name: hp_bap
   m_TagString: Untagged
@@ -669,6 +671,24 @@ Transform:
   m_Father: {fileID: 2764255990750144491}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1725154651330899311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825288928318455395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16446ae4701b4a7eb4f78f9312ff0966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hps:
+  - {fileID: 2994423061661282255}
+  - {fileID: 4659555289503585163}
+  - {fileID: 1961051429372143055}
+  - {fileID: 5945312905446167583}
+  - {fileID: 4238704366745788185}
 --- !u!1 &7831598118842242617
 GameObject:
   m_ObjectHideFlags: 0
