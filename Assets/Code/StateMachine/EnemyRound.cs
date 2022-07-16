@@ -33,8 +33,8 @@ namespace Code.StateMachine
       await _cardPositioner.CalculatePosition(_enemyHandler.EnemyCard);
       await _diceMover.ToBoard(_enemyDice.EnemyDice);
       await _diceRoller.Role(_enemyDice.EnemyDice);
-      Debug.Log("Yes complete!");
-
+      await _diceMover.ToCard(_enemyDice.EnemyDice);
+      
     }
 
     public void Exit()
