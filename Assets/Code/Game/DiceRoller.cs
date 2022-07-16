@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Code.Facade;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.Game
 {
   public interface IDiceRoller
   {
-    Task Role(List<DiceFacade> dice);
+    UniTask Role(List<DiceFacade> dice);
   }
 
   public class DiceRoller : IDiceRoller
@@ -17,13 +18,13 @@ namespace Code.Game
     {
     }
 
-    public async Task Role(List<DiceFacade> dice)
+    public async UniTask Role(List<DiceFacade> dice)
     {
       foreach (DiceFacade die in dice) 
         die.Die.Roll();
 
       while (dice.Any(x => x.Die.isRolling)) 
-        await Task.Yield();
+        await UniTask.NextFrame();
 
       Debug.Log("Wait complete!");
     }

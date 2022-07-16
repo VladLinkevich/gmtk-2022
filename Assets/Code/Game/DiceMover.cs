@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Code.Facade;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,8 +10,8 @@ namespace Code.Game
 {
   public interface IDiceMover
   {
-    Task ToBoard(List<DiceFacade> dice);
-    Task ToCard(List<DiceFacade> dice);
+    UniTask ToBoard(List<DiceFacade> dice);
+    UniTask ToCard(List<DiceFacade> dice);
   }
 
   public class DiceMover : IDiceMover
@@ -31,7 +29,7 @@ namespace Code.Game
       _settings = settings;
     }
 
-    public Task ToBoard(List<DiceFacade> dice)
+    public async UniTask ToBoard(List<DiceFacade> dice)
     {
       Tween tween = null;
       
@@ -39,10 +37,10 @@ namespace Code.Game
         tween = MoveDie(die, GetRandomPosition())
           .OnComplete(() => die.TogglePhysic(true));
 
-      return tween.AsyncWaitForCompletion();
+      await tween;
     }
     
-    public Task ToCard(List<DiceFacade> dice)
+    public async UniTask ToCard(List<DiceFacade> dice)
     {
       Tween tween = null;
       
@@ -53,7 +51,7 @@ namespace Code.Game
         tween = MoveLocalDie(die, CardPosition);
       }
 
-      return tween.AsyncWaitForCompletion();
+      await tween;
     }
 
     private void RotateToCard(DiceFacade die)

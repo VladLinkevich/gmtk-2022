@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Code.Facade;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace Code.Game
 {
   public interface ICardPositioner
   {
-    Task CalculatePosition(List<CardFacade> cards);
+    UniTask CalculatePosition(List<CardFacade> cards);
   }
 
   public class CardPositioner : ICardPositioner
@@ -27,7 +25,7 @@ namespace Code.Game
     }
 
 
-    public Task CalculatePosition(List<CardFacade> cards)
+    public async UniTask CalculatePosition(List<CardFacade> cards)
     {
       Tween tween = null;
       float border = ((cards.Count + (cards.Count - 1) * _settings.Offset) - 1) / 2;
@@ -38,7 +36,7 @@ namespace Code.Game
         tween = cards[i].transform.DOLocalMoveX(endValue, _settings.Duration);
       }
       
-      return tween.AsyncWaitForCompletion();
+      await tween;
     }
 
     [Serializable]
