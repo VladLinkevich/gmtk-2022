@@ -28,17 +28,23 @@ namespace Code.Installer
 
     private void BindHandlers() =>
       Container
-        .Bind<CardPositioner>()
-        .AsSingle()
-        .NonLazy();
+        .Bind<ICardPositioner>()
+        .To<CardPositioner>()
+        .AsSingle();
 
 
-    private void BindDice() =>
+    private void BindDice()
+    {
       Container
         .Bind<IDiceMover>()
         .To<DiceMover>()
-        .AsSingle()
-        .NonLazy();
+        .AsSingle();
+      
+      Container
+        .Bind<IDiceRoller>()
+        .To<DiceRoller>()
+        .AsSingle();
+    }
 
     private void BindStateMachine()
     {

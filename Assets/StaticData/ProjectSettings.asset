@@ -19,7 +19,7 @@ MonoBehaviour:
       type: 3}
   CardPositioner:
     Offset: 0.2
-    Duration: 0.2
+    Duration: 3
   DiceMover:
     Duration: 1
-    JumpPower: 10
+    JumpPower: 1

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Code.Facade;
 using DG.Tweening;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Code.Game
 {
   public interface IDiceMover
   {
-    void ToBoard(List<DiceFacade> dice);
+    Task ToBoard(List<DiceFacade> dice);
   }
 
   public class DiceMover : IDiceMover
@@ -26,11 +27,15 @@ namespace Code.Game
       _settings = settings;
     }
 
-    public void ToBoard(List<DiceFacade> dice)
+    public Task ToBoard(List<DiceFacade> dice)
     {
+      Tween tween = null;
+      
       foreach (DiceFacade die in dice)
-        MoveDie(die, GetRandomPosition())
+        tween = MoveDie(die, GetRandomPosition())
           .OnComplete(() => die.TogglePhysic(true));
+
+      return tween.AsyncWaitForCompletion();
     }
 
     private Tween MoveDie(DiceFacade die, Vector3 position) => 

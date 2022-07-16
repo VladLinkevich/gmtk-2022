@@ -1,49 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Code.Facade;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace Code.Game
 {
-  public class CardPositioner
+  public interface ICardPositioner
   {
-    private readonly ILoadLevel _loadLevel;
-    private readonly IEnemyHandler _enemyHandler;
-    private readonly IPlayerHandler _playerHandler;
+    Task CalculatePosition(List<CardFacade> cards);
+  }
+
+  public class CardPositioner : ICardPositioner
+  {
     private readonly Settings _settings;
 
     public CardPositioner(
-      ILoadLevel loadLevel,
       IEnemyHandler enemyHandler,
       IPlayerHandler playerHandler,
       Settings settings)
     {
-      _loadLevel = loadLevel;
-      _enemyHandler = enemyHandler;
-      _playerHandler = playerHandler;
       _settings = settings;
-
-      _loadLevel.Complete += Initialize;
     }
 
-    private void Initialize()
-    {
-      _loadLevel.Complete -= Initialize;
 
-      CalculatePosition(_playerHandler.PlayerCard);
-      CalculatePosition(_enemyHandler.EnemyCard);
-    }
-
-    private void CalculatePosition(List<CardFacade> cards)
+    public Task CalculatePosition(List<CardFacade> cards)
     {
+      Tween tween = null;
       float border = ((cards.Count + (cards.Count - 1) * _settings.Offset) - 1) / 2;
       
       for (int i = 0, end = cards.Count - 1; i <= end; ++i)
       {
         float endValue = Mathf.Lerp(-border, border, (float)i / end);
-        cards[i].transform.DOLocalMoveX(endValue, _settings.Duration);
+        tween = cards[i].transform.DOLocalMoveX(endValue, _settings.Duration);
       }
+      
+      return tween.AsyncWaitForCompletion();
     }
 
     [Serializable]
