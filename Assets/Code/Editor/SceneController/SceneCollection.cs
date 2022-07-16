@@ -17,14 +17,8 @@ namespace Editors
         {
             GUILayout.FlexibleSpace();
             
-            if(GUILayout.Button(new GUIContent("Test", "Switch scene to Game"))) 
-                SwitchScene("Test");
-            if(GUILayout.Button(new GUIContent("City", "Switch scene to Game"))) 
-                SwitchScene("City");
-            if(GUILayout.Button(new GUIContent("Neon", "Switch scene to Game"))) 
-                SwitchScene("Neon");
-            if(GUILayout.Button(new GUIContent("Lumosity", "Switch scene to Game"))) 
-                SwitchScene("Lumosity");
+            if(GUILayout.Button(new GUIContent("Game", "Switch scene to Game"))) 
+                SwitchScene("Game");
         }
 
         public static void SwitchScene(string sceneName)
