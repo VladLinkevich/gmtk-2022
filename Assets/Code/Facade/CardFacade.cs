@@ -6,5 +6,6 @@ namespace Code.Facade
   {
     public SpriteRenderer Character;
     public MeshRenderer Label;
+    public DiceFacade DiceFacade;
   }
 }

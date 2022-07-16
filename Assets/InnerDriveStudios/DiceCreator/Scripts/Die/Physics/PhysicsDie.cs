@@ -15,7 +15,6 @@ namespace InnerDriveStudios.DiceCreator
      */
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(MeshCollider))]
-    [DisallowMultipleComponent]
     public class PhysicsDie : Die
     {
 

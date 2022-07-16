@@ -82,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Character: {fileID: 8827796774623548779}
   Label: {fileID: 1203744944760509552}
+  DiceFacade: {fileID: 6054229231802019178}
 --- !u!1 &1961051429372143055
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +923,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b41755172d481ce4abb06cb1d7cf3d46, type: 3}
+--- !u!114 &6054229231802019178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3862279273073038491, guid: b41755172d481ce4abb06cb1d7cf3d46,
+    type: 3}
+  m_PrefabInstance: {fileID: 7033888014271461873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d144982cac431b8fe95a4a2db1ea8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7030816825644641673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4249918153970808, guid: b41755172d481ce4abb06cb1d7cf3d46,

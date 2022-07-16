@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6700661616624392171}
+  - component: {fileID: 2411162479539165948}
+  - component: {fileID: 122922741671968225}
   m_Layer: 8
   m_Name: side
   m_TagString: Untagged
@@ -33,6 +35,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &2411162479539165948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11234080420541892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40d7d87655d41bdbbee541c130342b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &122922741671968225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11234080420541892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420df1a5f5c445f2af9636041b89cf0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 1747521361052079207}
+  Value: {fileID: 1281663438832407999}
 --- !u!1 &595741694365593097
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2208597858466262318}
+  - component: {fileID: 1281663438832407999}
   m_Layer: 0
   m_Name: counter
   m_TagString: Untagged
@@ -321,6 +350,24 @@ Transform:
   m_Father: {fileID: 6700661616624392171}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1281663438832407999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026963390599941244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac31d3338254c5e9078eb112b6a3b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Counts:
+  - {fileID: 8427595274722383019}
+  - {fileID: 5391412730651027395}
+  - {fileID: 7010384358103018648}
+  - {fileID: 595741694365593097}
+  - {fileID: 4021110569305772187}
 --- !u!1 &5391412730651027395
 GameObject:
   m_ObjectHideFlags: 0

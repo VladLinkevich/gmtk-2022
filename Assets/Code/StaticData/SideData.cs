@@ -12,6 +12,6 @@ namespace Code.StaticData
     
     [Range(1, 5)]
     [ShowIf("@Type != SideType.None")]
-    public int Value;
+    public int Value = 0;
   }
 }
