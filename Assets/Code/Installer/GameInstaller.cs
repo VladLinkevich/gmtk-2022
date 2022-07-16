@@ -13,12 +13,25 @@ namespace Code.Installer
       BindHandlers();
       BindStateMachine();
       BindDice();
+      BindEnemyLogic();
     }
 
-    private void BindFactory() =>
+    private void BindEnemyLogic() =>
+      Container
+        .Bind<PickTarget>()
+        .AsSingle()
+        .NonLazy();
+
+    private void BindFactory()
+    {
       Container
         .BindInterfacesTo<CardFactory>()
         .AsSingle();
+
+      Container
+        .BindInterfacesTo<ObjectFactory>()
+        .AsSingle();
+    }
 
     private void BindLevelLoader() => 
       Container

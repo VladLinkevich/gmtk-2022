@@ -10,12 +10,14 @@ namespace Code.Installer
     public CardFactory.Settings CardFactory;
     public CardPositioner.Settings CardPositioner;
     public DiceMover.Settings DiceMover;
+    public ObjectFactory.Settings ObjectFactory;
 
     public override void InstallBindings()
     {
       Container.BindInstance(CardFactory).IfNotBound();
       Container.BindInstance(CardPositioner).IfNotBound();
       Container.BindInstance(DiceMover).IfNotBound();
+      Container.BindInstance(ObjectFactory).IfNotBound();
     }
   }
 }
