@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57bbf286b4947a99fd7a61ae8a2cc55, type: 3}
+  m_Name: ProjectSettings
+  m_EditorClassIdentifier: 
+  CardFactory:
+    PlayerCard: {fileID: 126440770787781500, guid: 30c02af1f6921c24fb5e24964f1436cb,
+      type: 3}
+    EnemyCard: {fileID: 4408819614284572028, guid: 988c6e3a7cd75644eb03d1c8a004f92b,
+      type: 3}
