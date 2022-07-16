@@ -32,7 +32,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1131659816781192}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: -4.0194383e-14, y: -0.707107, z: -4.0190046e-14, w: 0.70710665}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -173,11 +173,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _throwVector: {x: 0, y: 1, z: 0}
   _maxAngleDeviation: 45
-  _minVelocity: 10
-  _maxVelocity: 15
-  _minAngularVelocity: 10
-  _maxAngularVelocity: 15
-  _nudgeAlongForce: 10
+  _minVelocity: 5
+  _maxVelocity: 10
+  _minAngularVelocity: 5
+  _maxAngularVelocity: 20
+  _nudgeAlongForce: 6
 --- !u!114 &114535529759102160
 MonoBehaviour:
   m_ObjectHideFlags: 0
