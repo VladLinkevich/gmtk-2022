@@ -1,4 +1,5 @@
 ﻿using Code.Data;
+using UnityEngine;
 
 namespace Code.Game
 {
@@ -10,7 +11,11 @@ namespace Code.Game
     {
       _cardFactory = cardFactory;
 
-      _cardFactory.CreatePlayerCard(CardType.Archer);
+      GameObject archer = _cardFactory.CreatePlayerCard(CardType.Archer);
+      GameObject mage = _cardFactory.CreatePlayerCard(CardType.Mage);
+
+      archer.transform.localPosition = Vector3.left;
+      mage.transform.localPosition = Vector3.right;
     }
   }
 }

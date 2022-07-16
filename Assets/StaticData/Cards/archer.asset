@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe7aff9a9be49638f763cd7cc509486, type: 3}
-  m_Name: card_handler
+  m_Script: {fileID: 11500000, guid: a47cef5532d54c4384f091d614f8e165, type: 3}
+  m_Name: archer
   m_EditorClassIdentifier: 
-  Cards:
-  - {fileID: 11400000, guid: 4f269fa3fd1b47446aa0f0936660a05b, type: 2}
-  - {fileID: 11400000, guid: 6e73347a2fa18d54b96eb2ab5ca86328, type: 2}
+  Type: 0
+  Character: {fileID: 21300000, guid: 215946f4d7a95864781abcf41939f8a4, type: 3}
+  Color: {r: 0.2, g: 0.77254903, b: 0.49019608, a: 1}
+  Hp: 3

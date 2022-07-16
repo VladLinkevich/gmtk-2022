@@ -42,7 +42,7 @@ namespace Code.Game
     public GameObject CreatePlayerCard(CardType type)
     {
       CardData data = _dataHandler.GetCardData(type);
-      GameObject card = UnityEngine.Object.Instantiate(_settings.PlayerCard);
+      GameObject card = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
 
       CardFacade facade = card.GetComponent<CardFacade>();
       facade.Character.sprite = data.Character;
