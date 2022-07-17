@@ -14,7 +14,8 @@ namespace Code.StateMachine
     public RoundStateMachine(
       ILoadLevel level,
       EnemyRound enemyRound,
-      PlayerRoll playerRoll)
+      PlayerRoll playerRoll,
+      PlayerPick playerPick)
     {
       _level = level;
       
@@ -22,6 +23,7 @@ namespace Code.StateMachine
       {
         {typeof(EnemyRound), enemyRound},
         {typeof(PlayerRoll), playerRoll},
+        {typeof(PlayerPick), playerPick},
       };
 
       _level.Complete += Initialize;

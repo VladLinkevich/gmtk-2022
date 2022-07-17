@@ -1,4 +1,5 @@
-﻿using Code.Game;
+﻿using Code.Facade;
+using Code.Game;
 using Code.StateMachine;
 using Zenject;
 
@@ -6,6 +7,8 @@ namespace Code.Installer
 {
   public class GameInstaller : MonoInstaller
   {
+    public BoardFacade BoardFacade;
+    
     public override void InstallBindings()
     {
       BindLevelLoader();
@@ -14,6 +17,7 @@ namespace Code.Installer
       BindStateMachine();
       BindDice();
       BindEnemyLogic();
+      BindBoard();
     }
 
     private void BindEnemyLogic()
@@ -85,6 +89,16 @@ namespace Code.Installer
       Container
         .Bind<PlayerRoll>()
         .AsSingle();
+
+      Container
+        .Bind<PlayerPick>()
+        .AsSingle();
     }
+
+    private void BindBoard() =>
+      Container
+        .Bind<BoardFacade>()
+        .FromInstance(BoardFacade)
+        .AsSingle();
   }
 }

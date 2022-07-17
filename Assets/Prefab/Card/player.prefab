@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 2338354602324882310, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 2764255990750144491, guid: a62480db424a8a84e990321e14922ca7,
         type: 3}
       propertyPath: m_RootOrder
