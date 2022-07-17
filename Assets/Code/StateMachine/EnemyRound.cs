@@ -16,6 +16,7 @@ namespace Code.StateMachine
     private readonly IEnemyDiceHandler _enemyDice;
     private readonly IDiceRoller _diceRoller;
     private readonly IPickTarget _pickTarget;
+    private readonly IActionWriter _actionWriter;
 
     public EnemyRound(
       IDiceMover diceMover,
@@ -24,7 +25,8 @@ namespace Code.StateMachine
       IPlayerHandler playerHandler,
       IEnemyDiceHandler enemyDice,
       IDiceRoller diceRoller,
-      IPickTarget pickTarget)
+      IPickTarget pickTarget,
+      IActionWriter actionWriter)
     {
       _diceMover = diceMover;
       _cardPositioner = cardPositioner;
@@ -33,6 +35,7 @@ namespace Code.StateMachine
       _enemyDice = enemyDice;
       _diceRoller = diceRoller;
       _pickTarget = pickTarget;
+      _actionWriter = actionWriter;
     }
 
     public async  void Enter()
@@ -45,6 +48,8 @@ namespace Code.StateMachine
       await _diceRoller.Role(_enemyDice.EnemyDice);
       await _diceMover.ToCard(_enemyDice.EnemyDice);
       await _pickTarget.SelectTarget(_enemyHandler.Card);
+      _actionWriter.Release();
+      
     }
 
     public void Exit()

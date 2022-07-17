@@ -8,6 +8,7 @@ namespace Code.Game
   public interface IActionWriter
   {
     void Write(CardFacade from, CardFacade to);
+    void Release();
   }
 
   public class ActionWriter : IActionWriter
@@ -26,8 +27,14 @@ namespace Code.Game
       if (((SideAction) from.DiceFacade.Current.Type & SideAction.Attack) == SideAction.Attack)
       {
         to.HpBarFacade.AddToPreview(from.DiceFacade.Current.Value.Get);
-        _actions.Add(to.Guid, () => { to.HpBarFacade.Hit(from.DiceFacade.Current.Value.Get);});
+        _actions.Add(from.Guid, () => { to.HpBarFacade.Hit(from.DiceFacade.Current.Value.Get);});
       }
+    }
+
+    public void Release()
+    {
+      foreach (Action action in _actions.Values) 
+        action.Invoke();
     }
 
     private void Clear(CardFacade from)

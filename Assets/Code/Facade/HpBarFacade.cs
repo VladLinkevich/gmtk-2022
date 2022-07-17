@@ -45,9 +45,11 @@ namespace Code.Facade
       _preview = Mathf.Max(_preview - value, 0);
       
       for (int i = _current - 1, end = Mathf.Max(_current - value, 0); i >= end; --i) 
-        Hps[i].color = PreviewColor;
+        Hps[i].color = HitColor;
+
+      _current -= value;
       
-      if (_current - value <= 0) 
+      if (_current <= 0) 
         Destroy(this);
     }
   }

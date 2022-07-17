@@ -685,8 +685,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeactiveColor: {r: 0, g: 0, b: 0, a: 0}
   ActiveColor: {r: 0.05698844, g: 0.7169812, b: 0.01690993, a: 1}
-  HitColor: {r: 0, g: 0, b: 0, a: 1}
-  PreviewColor: {r: 0.8113208, g: 0, b: 0.08254794, a: 1}
+  HitColor: {r: 0.8117648, g: 0, b: 0.08235294, a: 1}
+  PreviewColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   Hps:
   - {fileID: 6128413496428860003}
   - {fileID: 4704036548201128184}
