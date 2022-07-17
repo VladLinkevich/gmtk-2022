@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Code.Facade
 {
@@ -10,10 +11,22 @@ namespace Code.Facade
     public event Action Enter;
     public event Action Exit;
     
-    private void OnMouseEnter() => 
+    private void OnMouseEnter()
+    {
+      if (Ignore ||
+          Mouse.current.leftButton.isPressed)
+        return;
+      
       Enter?.Invoke();
+    }
 
-    private void OnMouseExit() => 
+    private void OnMouseExit()
+    {
+      if (Ignore ||
+          Mouse.current.leftButton.isPressed)
+        return;
+      
       Exit?.Invoke();
+    }
   }
 }

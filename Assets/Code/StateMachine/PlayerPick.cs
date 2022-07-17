@@ -2,7 +2,6 @@
 using Code.Data;
 using Code.Facade;
 using Code.Game;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +12,7 @@ namespace Code.StateMachine
     private readonly IPlayerHandler _playerHandler;
     private readonly IEnemyHandler _enemyHandler;
     private readonly IArrow _arrow;
+    private readonly BoardFacade _boardFacade;
     private readonly Camera _camera;
     private readonly RaycastHit[] _result = new RaycastHit[1];
     private readonly int _cardMask;
@@ -25,24 +25,22 @@ namespace Code.StateMachine
     public PlayerPick(
       IPlayerHandler playerHandler,
       IEnemyHandler enemyHandler,
-      IArrow arrow)
+      IArrow arrow,
+      BoardFacade boardFacade)
     {
       _playerHandler = playerHandler;
       _enemyHandler = enemyHandler;
       _arrow = arrow;
-      
+      _boardFacade = boardFacade;
+
       _camera = Camera.main;
+      
       _groundMask = LayerMask.GetMask("Mouse");
       _cardMask = LayerMask.GetMask("Card");
     }
 
     public void Enter()
     {
-      foreach (CardFacade card in _enemyHandler.Card)
-      {
-        card.DestroyCard += IsWin;
-      }
-      
       foreach (CardFacade card in _playerHandler.Card)
       {
         if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Def | SideAction.Use)) != 0)
@@ -51,16 +49,20 @@ namespace Code.StateMachine
           card.Down += PickCard;
         }
       }
+
+      _boardFacade.Done.Observer.Click += EndRound;
     }
 
-    private void IsWin(CardFacade card)
+    private void EndRound()
     {
-      
+      _boardFacade.Done.Observer.Click -= EndRound;
+      ChangeState?.Invoke(typeof(RoundEndAction));
     }
 
     public void Exit()
     {
-
+      foreach (CardFacade card in _playerHandler.Card) 
+        card.Character.color = Color.white;
     }
 
     public void Tick()
@@ -115,6 +117,7 @@ namespace Code.StateMachine
 
     private void UseCard(CardFacade card)
     {
+      card.MouseObserver.Ignore = true;
       card.Down -= PickCard;
       card.Character.color = Color.gray;
     }

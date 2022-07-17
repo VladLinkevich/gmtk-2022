@@ -41,6 +41,14 @@ namespace Code.Facade
         Hps[i].color = PreviewColor;
     }
 
+    public void RemoveToPreview(int value)
+    {
+      _preview = Mathf.Max(_preview - value, 0);
+      
+      for (int i = 0, end = Mathf.Max(_current - _preview, 0); i < end; ++i) 
+        Hps[i].color = ActiveColor;
+    }
+
     public void Hit(int value)
     {
       value = Mathf.Max(value, 0);

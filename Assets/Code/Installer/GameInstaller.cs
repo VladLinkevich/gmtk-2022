@@ -98,6 +98,10 @@ namespace Code.Installer
         .AsSingle();
 
       Container
+        .Bind<RoundEndAction>()
+        .AsSingle();
+
+      Container
         .BindInterfacesAndSelfTo<PlayerPick>()
         .AsSingle();
     }

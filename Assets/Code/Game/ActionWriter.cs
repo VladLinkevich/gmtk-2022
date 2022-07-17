@@ -13,11 +13,16 @@ namespace Code.Game
 
   public class ActionWriter : IActionWriter
   {
-    private readonly Dictionary<Guid, Action> _actions = new Dictionary<Guid, Action>();
+    private readonly IEnemyHandler _enemyHandler;
+    private readonly Dictionary<CardFacade, CardFacade> _actions = new Dictionary<CardFacade, CardFacade>();
 
-    public ActionWriter()
+    public ActionWriter(
+      IEnemyHandler enemyHandler)
     {
-      
+      _enemyHandler = enemyHandler;
+
+      foreach (CardFacade card in _enemyHandler.Card) 
+        card.DestroyCard += Clear;
     }
 
     public void Write(CardFacade from, CardFacade to)
@@ -27,21 +32,21 @@ namespace Code.Game
       if (((SideAction) from.DiceFacade.Current.Type & SideAction.Attack) == SideAction.Attack)
       {
         to.HpBarFacade.AddToPreview(from.DiceFacade.Current.Value.Get);
-        _actions.Add(from.Guid, () => { to.HpBarFacade.Hit(from.DiceFacade.Current.Value.Get);});
+        _actions.Add(from, to);
       }
     }
 
     public void Release()
     {
-      foreach (Action action in _actions.Values) 
-        action.Invoke();
+      foreach (var action in _actions) 
+        action.Value.HpBarFacade.Hit(action.Key.DiceFacade.Current.Value.Get);
     }
 
     private void Clear(CardFacade from)
     {
       from.DestroyCard -= Clear;
-      
-      _actions.Remove(from.Guid);
+      _actions[from].HpBarFacade.RemoveToPreview(from.DiceFacade.Current.Value.Get);
+      _actions.Remove(from);
     }
   }
 }
