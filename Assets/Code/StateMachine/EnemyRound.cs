@@ -44,7 +44,7 @@ namespace Code.StateMachine
       await _diceRoller.Role();
       await _diceMover.ToCard(_enemyDice.EnemyDice);
       await _pickTarget.SelectTarget(_enemyHandler.Card);
-      
+
       ChangeState?.Invoke(typeof(PlayerRoll));
     }
 

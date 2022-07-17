@@ -18,7 +18,14 @@ namespace Code.Installer
       BindDice();
       BindEnemyLogic();
       BindBoard();
+      BindWinObserver();
     }
+
+    private void BindWinObserver() =>
+      Container
+        .Bind<IWinObserver>()
+        .To<WinObserver>()
+        .AsSingle();
 
     private void BindEnemyLogic()
     {
@@ -91,7 +98,7 @@ namespace Code.Installer
         .AsSingle();
 
       Container
-        .Bind<PlayerPick>()
+        .BindInterfacesAndSelfTo<PlayerPick>()
         .AsSingle();
     }
 

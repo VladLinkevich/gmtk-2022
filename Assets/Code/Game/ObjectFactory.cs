@@ -6,17 +6,20 @@ namespace Code.Game
 {
   public interface IArrow
   {
-    ArrowRenderer Instance { get; }
+    ArrowRenderer Enemy { get; }
+    ArrowRenderer Player { get; }
   }
 
   public class ObjectFactory : IArrow
   {
     private readonly IResourceLoader _resourceLoader;
     private readonly Settings _settings;
-    private readonly ArrowRenderer _arrow;
+    private readonly ArrowRenderer _enemyArrow;
+    private readonly ArrowRenderer _playerArrow;
     private Transform _root;
 
-    ArrowRenderer IArrow.Instance => _arrow;
+    ArrowRenderer IArrow.Enemy => _enemyArrow;
+    ArrowRenderer IArrow.Player => _playerArrow;
 
     public ObjectFactory(
       IResourceLoader resourceLoader,
@@ -26,12 +29,13 @@ namespace Code.Game
       _settings = settings;
 
       CreateRoot();
-      _arrow = CreateArrow();
+      _enemyArrow = CreateArrow(_settings.EnemyArrow);
+      _playerArrow = CreateArrow(_settings.PlayerArrow);
     }
 
-    private ArrowRenderer CreateArrow()
+    private ArrowRenderer CreateArrow(GameObject arrowPrefab)
     {
-      GameObject arrow = UnityEngine.Object.Instantiate(_settings.Arrow, _root);
+      GameObject arrow = UnityEngine.Object.Instantiate(arrowPrefab, _root);
       arrow.SetActive(false);
       return arrow.GetComponent<ArrowRenderer>();
     }
@@ -42,7 +46,8 @@ namespace Code.Game
     [Serializable]
     public class Settings
     {
-      public GameObject Arrow;
+      public GameObject EnemyArrow;
+      public GameObject PlayerArrow;
     }
   }
 }

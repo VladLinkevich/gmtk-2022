@@ -5,6 +5,8 @@ namespace Code.Facade
 {
   public class HpBarFacade : MonoBehaviour
   {
+    public event Action Destroy;
+    
     public Color DeactiveColor;
     public Color ActiveColor;
     public Color HitColor;
@@ -50,7 +52,7 @@ namespace Code.Facade
       _current -= value;
       
       if (_current <= 0) 
-        Destroy(this);
+        Destroy?.Invoke();
     }
   }
 }

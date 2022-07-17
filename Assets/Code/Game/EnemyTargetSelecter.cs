@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Code.Data;
 using Code.Facade;
-using Code.Services.CoroutineRunnerService;
-using Code.StaticData;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Code.Game
@@ -43,7 +42,17 @@ namespace Code.Game
           CardFacade target = GetTarget(_playerHandler.Card);
           await AnimateArrow(dice, target);
           _actionWriter.Write(card, target);
+          card.gameObject
+            .GetComponent<EnemyTargetView>()
+            .Setup(_arrow.Enemy, target.transform.position);
         }
+      }
+
+      foreach (CardFacade card in cards)
+      {
+        card.gameObject
+          .GetComponent<EnemyTargetView>()
+          .Activate();
       }
     }
 
@@ -54,20 +63,28 @@ namespace Code.Game
       Vector3 start = dice.transform.position;
       Vector3 end = target.transform.position;
 
-      _arrow.Instance.gameObject.SetActive(true);
-      _arrow.Instance.SetPositions(start, start);
+      _arrow.Enemy.gameObject.SetActive(true);
+      _arrow.Enemy.SetPositions(start, start);
+      foreach (MeshRenderer renderer in _arrow.Enemy.renderers) 
+        renderer.material.color = _settings.Color;
 
       while (time < _settings.DurationMove)
       {
         Vector3 current = Vector3.Lerp(start, end, time / _settings.DurationMove);
-        _arrow.Instance.SetPositions(start, current);
+        _arrow.Enemy.SetPositions(start, current);
 
         await UniTask.NextFrame();
         time += Time.deltaTime;
       }
 
-      _arrow.Instance.gameObject.SetActive(false);
-      await UniTask.Delay(_settings.DelayBetween);
+      Tween tween = null;
+      Color color = _settings.Color;
+      color.a = 0;
+      foreach (MeshRenderer renderer in _arrow.Enemy.renderers)
+        tween = renderer.material.DOColor(color, _settings.DurationBetween);
+      
+      await tween;
+      _arrow.Enemy.gameObject.SetActive(false);
     }
 
 
@@ -78,7 +95,8 @@ namespace Code.Game
     public class Settings
     {
       public float DurationMove;
-      public int DelayBetween;
+      public float DurationBetween;
+      public Color Color;
     }
   }
 }

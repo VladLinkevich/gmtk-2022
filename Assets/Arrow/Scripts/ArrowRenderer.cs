@@ -18,7 +18,9 @@ public class ArrowRenderer : MonoBehaviour
     Transform arrow;
 
     readonly List<Transform> segments = new List<Transform>();
-    readonly List<MeshRenderer> renderers = new List<MeshRenderer>();
+    public List<MeshRenderer> renderers = new List<MeshRenderer>();
+
+    public bool color;
 
     public void SetPositions(Vector3 start0, Vector3 end0)
     {
@@ -70,7 +72,7 @@ public class ArrowRenderer : MonoBehaviour
 
             Color currentColor = rend.material.color;
             currentColor.a = GetAlpha(pos.z - left.z, right.z - fadeDistance - pos.z, fadeStartDistance);
-            rend.material.color = currentColor;
+            rend.material.color = currentColor / (color ? 1.4f : 1);
         }
 
         if (!arrow)

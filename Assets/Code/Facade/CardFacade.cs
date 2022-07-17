@@ -27,7 +27,20 @@ namespace Code.Facade
       MouseObserver.Exit += OnExit;
       MouseObserver.Down += OnDown;
       MouseObserver.Up += OnUp;
+      HpBarFacade.Destroy += LoseHp;
     }
+
+    private void OnDisable()
+    {
+      MouseObserver.Enter -= OnEnter;
+      MouseObserver.Exit -= OnExit;
+      MouseObserver.Down -= OnDown;
+      MouseObserver.Up -= OnUp;
+      HpBarFacade.Destroy -= LoseHp;
+    }
+
+    private void LoseHp() => 
+      Destroy(gameObject);
 
     private void OnDestroy() => 
       DestroyCard?.Invoke(this);

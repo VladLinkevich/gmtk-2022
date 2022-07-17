@@ -24,7 +24,11 @@ MonoBehaviour:
     Duration: 1
     JumpPower: 1
   ObjectFactory:
-    Arrow: {fileID: 1473060366742988, guid: 72b455a4f0312df468f95f6b5d3715b2, type: 3}
+    EnemyArrow: {fileID: 1267180111628874, guid: d921b1a895a40453ba5f0fdc0329a9ab,
+      type: 3}
+    PlayerArrow: {fileID: 1473060366742988, guid: 72b455a4f0312df468f95f6b5d3715b2,
+      type: 3}
   PickTarget:
     DurationMove: 1.5
-    DelayBetween: 250
+    DurationBetween: 0.5
+    Color: {r: 0, g: 0.76862746, b: 1, a: 1}
