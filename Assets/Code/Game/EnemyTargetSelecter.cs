@@ -9,30 +9,33 @@ namespace Code.Game
 {
   public interface IPickTarget
   {
-    UniTask SelectCardTarget(List<CardFacade> cards, List<CardFacade> targets);
+    UniTask SelectTarget(List<CardFacade> cards);
   }
 
-  public class PickTarget : IPickTarget
+  public class EnemyTargetSelecter : IPickTarget
   {
     private readonly IArrow _arrow;
     private readonly ICoroutineRunner _runner;
+    private readonly IPlayerHandler _playerHandler;
     private readonly Settings _settings;
 
-    public PickTarget(
+    public EnemyTargetSelecter(
       IArrow arrow,
       ICoroutineRunner runner,
+      IPlayerHandler playerHandler,
       Settings settings)
     {
       _arrow = arrow;
       _runner = runner;
+      _playerHandler = playerHandler;
       _settings = settings;
     }
 
-    public async UniTask SelectCardTarget(List<CardFacade> cards, List<CardFacade> targets)
+    public async UniTask SelectTarget(List<CardFacade> cards)
     {
       foreach (CardFacade card in cards)
       {
-        CardFacade target = GetTarget(targets);
+        CardFacade target = GetTarget(_playerHandler.Card);
         await AnimateArrow(card, target);
       }
     }

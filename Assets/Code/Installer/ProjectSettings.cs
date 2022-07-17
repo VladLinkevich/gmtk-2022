@@ -11,7 +11,7 @@ namespace Code.Installer
     public CardPositioner.Settings CardPositioner;
     public DiceMover.Settings DiceMover;
     public ObjectFactory.Settings ObjectFactory;
-    public PickTarget.Settings PickTarget;
+    public EnemyTargetSelecter.Settings PickTarget;
 
     public override void InstallBindings()
     {

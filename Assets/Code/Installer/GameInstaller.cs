@@ -19,7 +19,7 @@ namespace Code.Installer
     private void BindEnemyLogic() =>
       Container
         .Bind<IPickTarget>()
-        .To<PickTarget>()
+        .To<EnemyTargetSelecter>()
         .AsSingle();
 
     private void BindFactory()

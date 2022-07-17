@@ -36,11 +36,11 @@ namespace Code.StateMachine
 
     public async  void Enter()
     {
-      await _cardPositioner.CalculatePosition(_enemyHandler.EnemyCard);
+      await _cardPositioner.CalculatePosition(_enemyHandler.Card);
       await _diceMover.ToBoard(_enemyDice.EnemyDice);
       await _diceRoller.Role(_enemyDice.EnemyDice);
       await _diceMover.ToCard(_enemyDice.EnemyDice);
-      await _pickTarget.SelectCardTarget(_enemyHandler.EnemyCard, _playerHandler.PlayerCard);
+      await _pickTarget.SelectTarget(_enemyHandler.Card);
     }
 
     public void Exit()

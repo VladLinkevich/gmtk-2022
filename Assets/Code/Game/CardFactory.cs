@@ -17,13 +17,13 @@ namespace Code.Game
   public interface IEnemyHandler
   {
     event Action<CardFacade> EnemyCardCreate;
-    List<CardFacade> EnemyCard { get; }
+    List<CardFacade> Card { get; }
   }
 
   public interface IPlayerHandler
   {
     event Action<CardFacade> PlayerCardCreate;
-    List<CardFacade> PlayerCard { get; }
+    List<CardFacade> Card { get; }
   }
 
   public interface IPlayerDiceHandler
@@ -44,8 +44,8 @@ namespace Code.Game
     public event Action<CardFacade> PlayerCardCreate;
     public event Action<CardFacade> EnemyCardCreate;
 
-    public List<CardFacade> PlayerCard { get; private set; } = new List<CardFacade>();
-    public List<CardFacade> EnemyCard { get; private set; } = new List<CardFacade>();
+    List<CardFacade> IPlayerHandler.Card => _playerCard;
+    List<CardFacade> IEnemyHandler.Card => _enemyCard;
     
     public List<DiceFacade> PlayerDice { get; private set; } = new List<DiceFacade>();
     public List<DiceFacade> EnemyDice { get; private set; } = new List<DiceFacade>();
@@ -54,6 +54,9 @@ namespace Code.Game
     private readonly CardHandler _dataHandler;
     private readonly SideHandler _sideHandler;
     private readonly Settings _settings;
+
+    private readonly List<CardFacade> _playerCard = new List<CardFacade>();
+    private readonly List<CardFacade> _enemyCard = new List<CardFacade>();
 
     private Transform _playerRoot;
     private Transform _enemyRoot;
@@ -82,7 +85,7 @@ namespace Code.Game
       SetupCardFacade(facade, data);
       SetupDice(facade.DiceFacade, data);
 
-      PlayerCard.Add(facade);
+      _playerCard.Add(facade);
       PlayerDice.Add(facade.DiceFacade);
       
       PlayerCardCreate?.Invoke(facade);
@@ -99,7 +102,7 @@ namespace Code.Game
         SetupCardFacade(facade, data);
         SetupDice(facade.DiceFacade, data);
 
-        EnemyCard.Add(facade);
+        _enemyCard.Add(facade);
         EnemyDice.Add(facade.DiceFacade);
         EnemyCardCreate?.Invoke(facade);
       
