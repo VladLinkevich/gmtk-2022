@@ -102,6 +102,10 @@ namespace Code.Installer
         .AsSingle();
 
       Container
+        .Bind<WinState>()
+        .AsSingle();
+
+      Container
         .BindInterfacesAndSelfTo<PlayerPick>()
         .AsSingle();
     }

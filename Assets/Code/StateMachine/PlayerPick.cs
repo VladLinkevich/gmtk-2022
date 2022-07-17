@@ -12,6 +12,7 @@ namespace Code.StateMachine
     private readonly IPlayerHandler _playerHandler;
     private readonly IEnemyHandler _enemyHandler;
     private readonly IArrow _arrow;
+    private readonly IWinObserver _winObserver;
     private readonly BoardFacade _boardFacade;
     private readonly Camera _camera;
     private readonly RaycastHit[] _result = new RaycastHit[1];
@@ -19,6 +20,8 @@ namespace Code.StateMachine
     private readonly int _groundMask;
     
     private CardFacade _pickCard;
+    private static readonly int Hide = Animator.StringToHash("Hide");
+    private static readonly int Pick = Animator.StringToHash("pick");
 
     public event Action<Type> ChangeState;
 
@@ -26,11 +29,13 @@ namespace Code.StateMachine
       IPlayerHandler playerHandler,
       IEnemyHandler enemyHandler,
       IArrow arrow,
+      IWinObserver winObserver,
       BoardFacade boardFacade)
     {
       _playerHandler = playerHandler;
       _enemyHandler = enemyHandler;
       _arrow = arrow;
+      _winObserver = winObserver;
       _boardFacade = boardFacade;
 
       _camera = Camera.main;
@@ -41,6 +46,8 @@ namespace Code.StateMachine
 
     public void Enter()
     {
+      _boardFacade.Animator.SetTrigger(Pick);
+
       foreach (CardFacade card in _playerHandler.Card)
       {
         if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Def | SideAction.Use)) != 0)
@@ -50,20 +57,27 @@ namespace Code.StateMachine
         }
       }
 
+      _winObserver.Lose += CompleteLevel;
+      _winObserver.Win += CompleteLevel;
       _boardFacade.Done.Observer.Click += EndRound;
     }
 
-    private void EndRound()
-    {
-      _boardFacade.Done.Observer.Click -= EndRound;
+    private void EndRound() => 
       ChangeState?.Invoke(typeof(RoundEndAction));
-    }
 
     public void Exit()
     {
+      _boardFacade.Animator.SetTrigger(Hide);
+      _boardFacade.Done.Observer.Click -= EndRound;
+      _winObserver.Lose -= CompleteLevel;
+      _winObserver.Win -= CompleteLevel;
+      
       foreach (CardFacade card in _playerHandler.Card) 
         card.Character.color = Color.white;
     }
+
+    private void CompleteLevel() => 
+      ChangeState?.Invoke(typeof(WinState));
 
     public void Tick()
     {

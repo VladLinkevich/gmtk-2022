@@ -16,12 +16,6 @@ namespace Code.Services.SceneLoadService
 
         public void Load(string name, Action onComplete = null)
         {
-            if (SceneManager.GetActiveScene().name == name)
-            {
-                Complete(onComplete);
-                return;
-            }
-            
             AsyncOperation loader = _sceneLoader.LoadSceneAsync(name);
             loader.completed += operation => Complete(onComplete);
         }

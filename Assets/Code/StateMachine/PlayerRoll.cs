@@ -1,6 +1,7 @@
 ﻿using System;
 using Code.Facade;
 using Code.Game;
+using UnityEngine;
 
 namespace Code.StateMachine
 {
@@ -11,6 +12,7 @@ namespace Code.StateMachine
     private readonly IPlayerHandler _playerHandler;
     private readonly IPlayerDiceHandler _playerDice;
     private readonly BoardFacade _boardFacade;
+    private static readonly int Show = Animator.StringToHash("show");
     public event Action<Type> ChangeState;
 
     public PlayerRoll(
@@ -29,6 +31,7 @@ namespace Code.StateMachine
 
     public async void Enter()
     {
+      _boardFacade.Animator.SetTrigger(Show);
       await _diceMover.ToBoard(_playerDice.PlayerDice);
       await _diceRoller.Role();
 

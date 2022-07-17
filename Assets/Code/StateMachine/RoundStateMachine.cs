@@ -7,7 +7,8 @@ namespace Code.StateMachine
   public class RoundStateMachine
   {
     private readonly ILoadLevel _level;
-    
+    private readonly WinState _winState;
+
     private Dictionary<Type, IState> _states;
     private IState _currentState;
 
@@ -16,16 +17,18 @@ namespace Code.StateMachine
       EnemyRound enemyRound,
       PlayerRoll playerRoll,
       PlayerPick playerPick,
-      RoundEndAction roundEndAction)
+      RoundEndAction roundEndAction,
+      WinState winState)
     {
       _level = level;
-      
+
       _states = new Dictionary<Type, IState>()
       {
         {typeof(EnemyRound), enemyRound},
         {typeof(PlayerRoll), playerRoll},
         {typeof(PlayerPick), playerPick},
         {typeof(RoundEndAction), roundEndAction},
+        {typeof(WinState), winState},
       };
 
       _level.Complete += Initialize;

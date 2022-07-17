@@ -1,5 +1,6 @@
 ﻿using System;
 using Code.Facade;
+using UnityEngine;
 
 namespace Code.Game
 {
@@ -16,15 +17,21 @@ namespace Code.Game
     
     private readonly IPlayerHandler _playerHandler;
     private readonly IEnemyHandler _enemyHandler;
+    private readonly IPlayerDiceHandler _playerDice;
+    private readonly IEnemyDiceHandler _enemyDice;
     private readonly ILoadLevel _loadLevel;
 
     public WinObserver(
       IPlayerHandler playerHandler,
       IEnemyHandler enemyHandler,
+      IPlayerDiceHandler playerDice,
+      IEnemyDiceHandler enemyDice,
       ILoadLevel loadLevel)
     {
       _playerHandler = playerHandler;
       _enemyHandler = enemyHandler;
+      _playerDice = playerDice;
+      _enemyDice = enemyDice;
       _loadLevel = loadLevel;
 
       _loadLevel.Complete += Initialize;
@@ -49,6 +56,7 @@ namespace Code.Game
     {
       if (_playerHandler.Card.Contains(card))
       {
+        _playerDice.PlayerDice.Remove(card.DiceFacade);
         _playerHandler.Card.Remove(card);
         if (_playerHandler.Card.Count == 0) 
           Lose?.Invoke();
@@ -59,9 +67,14 @@ namespace Code.Game
     {
       if (_enemyHandler.Card.Contains(card))
       {
+        _enemyDice.EnemyDice.Remove(card.DiceFacade);
         _enemyHandler.Card.Remove(card);
-        if (_enemyHandler.Card.Count == 0) 
+        if (_enemyHandler.Card.Count == 0)
+        {
+          int level = PlayerPrefs.GetInt("level", 0) + 1;
+          PlayerPrefs.SetInt("level", level);
           Win?.Invoke();
+        }
       }
     }
   }

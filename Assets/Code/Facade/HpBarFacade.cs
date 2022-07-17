@@ -45,8 +45,9 @@ namespace Code.Facade
     {
       _preview = Mathf.Max(_preview - value, 0);
       
-      for (int i = 0, end = Mathf.Max(_current - _preview, 0); i < end; ++i) 
-        Hps[i].color = ActiveColor;
+      for (int i = 0, end = Mathf.Max(_current - _preview, 0); i < end; ++i)
+        if (Hps[i] != null)
+          Hps[i].color = ActiveColor;
     }
 
     public void Hit(int value)
