@@ -7,16 +7,16 @@ namespace Code.StaticData
   [CreateAssetMenu(fileName = "side_data", menuName = "Data/Side", order = 0)]
   public class SideStaticData : ScriptableObject
   {
-    [ValidateInput("Rename")]
     public SideType Type;
     public Sprite Icon;
     
 #if UNITY_EDITOR
     
+    [Button]
     public void Rename()
     {
       string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this.GetInstanceID());
-      UnityEditor.AssetDatabase.RenameAsset(assetPath, Type.ToString().ToLower());
+      UnityEditor.AssetDatabase.RenameAsset(assetPath, Icon.ToString().ToLower());
     }
 
 #endif

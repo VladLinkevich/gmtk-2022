@@ -12,16 +12,8 @@ namespace Code.StaticData
   {
     public List<SideStaticData> Sides;
 
-    public SideStaticData GetSideData(SideType type)
-    {
-      foreach (SideStaticData side in Sides)
-      {
-        if (side.Type == type)
-          return side;
-      }
-
-      return null;
-    }
+    public SideStaticData GetSideData(SideType type) => 
+      Sides.FirstOrDefault(side => side.Type == type);
 
 #if UNITY_EDITOR
 

@@ -7,7 +7,7 @@ namespace Code.Facade
     public GameObject[] Counts;
     private int _value;
 
-    public int Value => _value;
+    public int Get => _value;
     
     public void Set(int value)
     {

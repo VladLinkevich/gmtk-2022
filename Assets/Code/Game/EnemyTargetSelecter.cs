@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Code.Data;
 using Code.Facade;
 using Code.Services.CoroutineRunnerService;
+using Code.StaticData;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace Code.Game
 {
   public interface IPickTarget
   {
-    UniTask SelectTarget(List<CardFacade> cards);
+    UniTask SelectTarget(List<DiceFacade> cards);
   }
 
   public class EnemyTargetSelecter : IPickTarget
@@ -17,30 +19,44 @@ namespace Code.Game
     private readonly IArrow _arrow;
     private readonly ICoroutineRunner _runner;
     private readonly IPlayerHandler _playerHandler;
+    private readonly IEnemyHandler _enemyHandler;
+    private readonly CardHandler _cardHandler;
     private readonly Settings _settings;
 
     public EnemyTargetSelecter(
       IArrow arrow,
       ICoroutineRunner runner,
       IPlayerHandler playerHandler,
+      IEnemyHandler enemyHandler,
+      CardHandler cardHandler,
       Settings settings)
     {
       _arrow = arrow;
       _runner = runner;
       _playerHandler = playerHandler;
+      _enemyHandler = enemyHandler;
+      _cardHandler = cardHandler;
       _settings = settings;
     }
 
-    public async UniTask SelectTarget(List<CardFacade> cards)
+    public async UniTask SelectTarget(List<DiceFacade> dice)
     {
-      foreach (CardFacade card in cards)
+      foreach (DiceFacade die in dice)
       {
-        CardFacade target = GetTarget(_playerHandler.Card);
-        await AnimateArrow(card, target);
+        CardFacade target = null;
+
+        if (((SideAction) die.Current.Type & SideAction.Attack) == SideAction.Attack)
+          target = GetTarget(_playerHandler.Card);
+
+        if (((SideAction) die.Current.Type & SideAction.Def) == SideAction.Def)
+          target = GetTarget(_enemyHandler.Card);
+
+        if (target != null)
+          await AnimateArrow(die, target);
       }
     }
 
-    private async UniTask AnimateArrow(CardFacade card, CardFacade target)
+    private async UniTask AnimateArrow(DiceFacade card, CardFacade target)
     {
       float time = 0;
       

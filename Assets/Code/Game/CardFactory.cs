@@ -118,11 +118,13 @@ namespace Code.Game
 
     private void SetupDice(DiceFacade facade, CardData data)
     {
+      facade.Type = data.Type;
       facade.Renderer.material.color = data.Color;
       for (int i = 0, end = data.Sides.Length; i < end; ++i)
       {
         SideStaticData staticData = _sideHandler.GetSideData(data.Sides[i].Type);
-        
+
+        facade.Sides[i].Type = staticData.Type;
         facade.Sides[i].Renderer.sprite = staticData.Icon;
         facade.Sides[i].Value.Set(data.Sides[i].Value);
       }

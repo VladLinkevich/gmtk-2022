@@ -7,7 +7,6 @@ namespace Code.StaticData
   [CreateAssetMenu(fileName = "card_data", menuName = "Data/Card", order = 0)]
   public class CardData : ScriptableObject
   {
-    [OnValueChanged("Rename")]
     public CardType Type;
     public Sprite Character;
     public Color Color;
@@ -19,11 +18,12 @@ namespace Code.StaticData
     public SideData[] Sides;
 
 #if UNITY_EDITOR
-    
+
+    [Button]
     public void Rename()
     {
       string assetPath = UnityEditor.AssetDatabase.GetAssetPath(this.GetInstanceID());
-      UnityEditor.AssetDatabase.RenameAsset(assetPath, Type.ToString().ToLower());
+      UnityEditor.AssetDatabase.RenameAsset(assetPath, Character.ToString().ToLower());
     }
 
 #endif

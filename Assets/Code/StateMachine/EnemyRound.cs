@@ -1,5 +1,6 @@
 ﻿using System;
 using Code.Game;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Code.StateMachine
@@ -39,8 +40,9 @@ namespace Code.StateMachine
       await _cardPositioner.CalculatePosition(_enemyHandler.Card);
       await _diceMover.ToBoard(_enemyDice.EnemyDice);
       await _diceRoller.Role(_enemyDice.EnemyDice);
+      await UniTask.Delay(100);
       await _diceMover.ToCard(_enemyDice.EnemyDice);
-      await _pickTarget.SelectTarget(_enemyHandler.Card);
+      await _pickTarget.SelectTarget(_enemyDice.EnemyDice);
     }
 
     public void Exit()
