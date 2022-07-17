@@ -43,7 +43,6 @@ namespace Code.Facade
     private void UpdateSkill(ARollable rollable)
     {
       DieSideMatchInfo info = DieSides.GetDieSideMatchInfo();
-      Debug.Log(info.closestMatch.values[0]);
       Value = info.closestMatch.values[0];
     }
 

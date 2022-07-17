@@ -37,12 +37,14 @@ namespace Code.StateMachine
 
     public async  void Enter()
     {
-      await _cardPositioner.CalculatePosition(_enemyHandler.Card);
+      await UniTask.WhenAll(
+        _cardPositioner.CalculatePosition(_enemyHandler.Card),
+        _cardPositioner.CalculatePosition(_playerHandler.Card));
+      
       await _diceMover.ToBoard(_enemyDice.EnemyDice);
       await _diceRoller.Role(_enemyDice.EnemyDice);
-      await UniTask.Delay(100);
       await _diceMover.ToCard(_enemyDice.EnemyDice);
-      await _pickTarget.SelectTarget(_enemyDice.EnemyDice);
+      await _pickTarget.SelectTarget(_enemyHandler.Card);
     }
 
     public void Exit()

@@ -683,12 +683,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16446ae4701b4a7eb4f78f9312ff0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeactiveColor: {r: 0, g: 0, b: 0, a: 0}
+  ActiveColor: {r: 0.05698844, g: 0.7169812, b: 0.01690993, a: 1}
+  HitColor: {r: 0, g: 0, b: 0, a: 1}
+  PreviewColor: {r: 0.8113208, g: 0, b: 0.08254794, a: 1}
   Hps:
-  - {fileID: 2994423061661282255}
-  - {fileID: 4659555289503585163}
-  - {fileID: 1961051429372143055}
-  - {fileID: 5945312905446167583}
-  - {fileID: 4238704366745788185}
+  - {fileID: 6128413496428860003}
+  - {fileID: 4704036548201128184}
+  - {fileID: 1587604557048664893}
+  - {fileID: 9083167196672695618}
+  - {fileID: 4911935248790377438}
 --- !u!1 &7831598118842242617
 GameObject:
   m_ObjectHideFlags: 0

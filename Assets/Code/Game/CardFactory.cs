@@ -111,6 +111,7 @@ namespace Code.Game
 
     private void SetupCardFacade(CardFacade facade, CardData data)
     {
+      facade.Guid = Guid.NewGuid();
       facade.Character.sprite = data.Character;
       facade.Label.material.color = data.Color;
       facade.HpBarFacade.Set(data.Hp);

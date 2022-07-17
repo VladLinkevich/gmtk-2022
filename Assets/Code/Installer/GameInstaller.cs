@@ -16,11 +16,18 @@ namespace Code.Installer
       BindEnemyLogic();
     }
 
-    private void BindEnemyLogic() =>
+    private void BindEnemyLogic()
+    {
       Container
         .Bind<IPickTarget>()
         .To<EnemyTargetSelecter>()
         .AsSingle();
+      
+      Container
+        .Bind<IActionWriter>()
+        .To<ActionWriter>()
+        .AsSingle();
+    }
 
     private void BindFactory()
     {

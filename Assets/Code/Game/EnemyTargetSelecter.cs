@@ -11,56 +11,47 @@ namespace Code.Game
 {
   public interface IPickTarget
   {
-    UniTask SelectTarget(List<DiceFacade> cards);
+    UniTask SelectTarget(List<CardFacade> cards);
   }
 
   public class EnemyTargetSelecter : IPickTarget
   {
     private readonly IArrow _arrow;
-    private readonly ICoroutineRunner _runner;
     private readonly IPlayerHandler _playerHandler;
-    private readonly IEnemyHandler _enemyHandler;
-    private readonly CardHandler _cardHandler;
+    private readonly IActionWriter _actionWriter;
     private readonly Settings _settings;
 
     public EnemyTargetSelecter(
       IArrow arrow,
-      ICoroutineRunner runner,
       IPlayerHandler playerHandler,
-      IEnemyHandler enemyHandler,
-      CardHandler cardHandler,
+      IActionWriter actionWriter,
       Settings settings)
     {
       _arrow = arrow;
-      _runner = runner;
       _playerHandler = playerHandler;
-      _enemyHandler = enemyHandler;
-      _cardHandler = cardHandler;
+      _actionWriter = actionWriter;
       _settings = settings;
     }
 
-    public async UniTask SelectTarget(List<DiceFacade> dice)
+    public async UniTask SelectTarget(List<CardFacade> cards)
     {
-      foreach (DiceFacade die in dice)
+      foreach (CardFacade card in cards)
       {
-        CardFacade target = null;
-
-        if (((SideAction) die.Current.Type & SideAction.Attack) == SideAction.Attack)
-          target = GetTarget(_playerHandler.Card);
-
-        if (((SideAction) die.Current.Type & SideAction.Def) == SideAction.Def)
-          target = GetTarget(_enemyHandler.Card);
-
-        if (target != null)
-          await AnimateArrow(die, target);
+        DiceFacade dice = card.DiceFacade;
+        if (((SideAction) dice.Current.Type & SideAction.Attack) == SideAction.Attack)
+        {
+          CardFacade target = GetTarget(_playerHandler.Card);
+          await AnimateArrow(dice, target);
+          _actionWriter.Write(card, target);
+        }
       }
     }
 
-    private async UniTask AnimateArrow(DiceFacade card, CardFacade target)
+    private async UniTask AnimateArrow(DiceFacade dice, CardFacade target)
     {
       float time = 0;
       
-      Vector3 start = card.transform.position;
+      Vector3 start = dice.transform.position;
       Vector3 end = target.transform.position;
 
       _arrow.Instance.gameObject.SetActive(true);
