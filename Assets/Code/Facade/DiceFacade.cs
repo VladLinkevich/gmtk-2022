@@ -8,6 +8,8 @@ namespace Code.Facade
 {
   public class DiceFacade : MonoBehaviour
   {
+    public event Action<DiceFacade> Click;
+    
     [ReadOnly]
     public CardType Type;
 
@@ -16,6 +18,9 @@ namespace Code.Facade
 
     [ReadOnly]
     public DieSides DieSides;
+
+    [ReadOnly] 
+    public ObserveDiceOnClick ObserveDice;
 
     public MeshRenderer Renderer;
     public Rigidbody Rigidbody;
@@ -26,13 +31,23 @@ namespace Code.Facade
 
     public SideFacade Current => Sides[Value];
     public int Value { get; private set; }
+    
+    public Vector3 SaveRotation { get; private set; }
+    public Vector3 SavePosition { get; private set; }
 
     private void OnEnable()
     {
       Die.OnRollEnd += UpdateSkill;
+      ObserveDice.Click += OnClick;
     }
 
-    public void TogglePhysic(bool flag)
+    private void OnDisable()
+    {
+      Die.OnRollEnd -= UpdateSkill;
+      ObserveDice.Click -= OnClick;
+    }
+
+    public void ActivatePhysic(bool flag)
     {
       Rigidbody.velocity = Vector3.zero;
       
@@ -46,6 +61,14 @@ namespace Code.Facade
       Value = info.closestMatch.values[0];
     }
 
+    private void OnClick() => 
+      Click?.Invoke(this);
+
+    public void SavePositionAndRotation()
+    {
+      SaveRotation = transform.eulerAngles;
+      SavePosition = transform.position;
+    }
 
 #if UNITY_EDITOR
 
@@ -53,6 +76,7 @@ namespace Code.Facade
     {
       Die = GetComponent<Die>();
       DieSides = GetComponent<DieSides>();
+      ObserveDice = GetComponent<ObserveDiceOnClick>();
     }
 
 #endif

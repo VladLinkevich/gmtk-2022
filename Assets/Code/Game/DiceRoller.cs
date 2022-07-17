@@ -9,17 +9,22 @@ namespace Code.Game
 {
   public interface IDiceRoller
   {
-    UniTask Role(List<DiceFacade> dice);
+    UniTask Role();
   }
 
   public class DiceRoller : IDiceRoller
   {
-    public DiceRoller()
+    private readonly IDiceMover _diceMover;
+
+    public DiceRoller(IDiceMover diceMover)
     {
+      _diceMover = diceMover;
     }
 
-    public async UniTask Role(List<DiceFacade> dice)
+    public async UniTask Role()
     {
+      List<DiceFacade> dice = _diceMover.DiceOnBoard;
+      
       foreach (DiceFacade die in dice) 
         die.Die.Roll();
 

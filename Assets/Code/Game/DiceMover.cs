@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Code.Facade;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,6 +11,7 @@ namespace Code.Game
 {
   public interface IDiceMover
   {
+    List<DiceFacade> DiceOnBoard { get; }
     UniTask ToBoard(List<DiceFacade> dice);
     UniTask ToCard(List<DiceFacade> dice);
   }
@@ -23,6 +25,8 @@ namespace Code.Game
     
     private readonly Settings _settings;
 
+    public List<DiceFacade> DiceOnBoard { get; private set; } = new();
+
     public DiceMover(
       Settings settings)
     {
@@ -34,30 +38,78 @@ namespace Code.Game
       Tween tween = null;
       
       foreach (DiceFacade die in dice)
+      {
+        DiceOnBoard.Add(die);
+        die.Click += ToggleMove;
+        
         tween = MoveDie(die, GetRandomPosition())
-          .OnComplete(() => die.TogglePhysic(true));
+          .OnComplete(() => die.ActivatePhysic(true));
+      }
 
       await tween;
     }
-    
+
     public async UniTask ToCard(List<DiceFacade> dice)
     {
       Tween tween = null;
       
       foreach (DiceFacade die in dice)
       {
-        die.TogglePhysic(false);
-        RotateToCard(die);
-        tween = MoveLocalDie(die, CardPosition);
+        DiceOnBoard.Remove(die);
+        die.ActivatePhysic(false);
+        die.Click -= ToggleMove;
+
+        tween = MoveToCard(die);
       }
 
       await tween;
     }
 
-    private void RotateToCard(DiceFacade die)
+    private void ToggleMove(DiceFacade die)
+    {
+      if (DiceOnBoard.Contains(die))
+        ClickToCard(die);
+      else
+        ClickToBoard(die);
+    }
+
+    private void ClickToBoard(DiceFacade die)
+    {
+      DiceOnBoard.Add(die);
+
+      die.ObserveDice.Ignore = !false;
+
+      RotateToCard(die, die.SaveRotation.y);
+      MoveDie(die, die.SavePosition)
+        .OnComplete(() =>
+        {
+          die.ObserveDice.Ignore = !true;
+          die.ActivatePhysic(true);
+        });
+    }
+
+    private void ClickToCard(DiceFacade die)
+    {
+      DiceOnBoard.Remove(die);
+
+      die.SavePositionAndRotation();
+      die.ObserveDice.Ignore = !false;
+      die.ActivatePhysic(false);
+
+      MoveToCard(die)
+        .OnComplete(() => die.ObserveDice.Ignore = !true);
+    }
+
+    private Tween MoveToCard(DiceFacade die)
+    {
+      RotateToCard(die);
+      return MoveLocalDie(die, CardPosition);
+    }
+
+    private void RotateToCard(DiceFacade die, float angle = 180f)
     {
       Vector3 angles = die.transform.eulerAngles;
-      angles.y = 180;
+      angles.y = angle;
       RotateToIdentity(die, angles);
     }
 

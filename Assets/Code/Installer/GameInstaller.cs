@@ -80,8 +80,11 @@ namespace Code.Installer
     {
       Container
         .Bind<EnemyRound>()
-        .AsSingle()
-        .NonLazy();
+        .AsSingle();
+
+      Container
+        .Bind<PlayerRoll>()
+        .AsSingle();
     }
   }
 }

@@ -27,9 +27,9 @@ namespace Code.Game
       _cardFactory.CreatePlayerCard(CardType.Mage);
       _cardFactory.CreatePlayerCard(CardType.Rouge);
       _cardFactory.CreatePlayerCard(CardType.Warrior);
-      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      //_cardFactory.CreateEnemyCard(CardType.SkullArcher);
+      //_cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      //_cardFactory.CreateEnemyCard(CardType.SkullCommon);
       _cardFactory.CreateEnemyCard(CardType.SkullCommon);
 
       Complete?.Invoke();

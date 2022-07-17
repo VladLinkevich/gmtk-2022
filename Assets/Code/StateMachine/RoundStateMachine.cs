@@ -13,12 +13,15 @@ namespace Code.StateMachine
 
     public RoundStateMachine(
       ILoadLevel level,
-      EnemyRound enemyRound)
+      EnemyRound enemyRound,
+      PlayerRoll playerRoll)
     {
       _level = level;
+      
       _states = new Dictionary<Type, IState>()
       {
         {typeof(EnemyRound), enemyRound},
+        {typeof(PlayerRoll), playerRoll},
       };
 
       _level.Complete += Initialize;

@@ -1,7 +1,6 @@
 ﻿using System;
 using Code.Game;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Code.StateMachine
 {
@@ -16,7 +15,6 @@ namespace Code.StateMachine
     private readonly IEnemyDiceHandler _enemyDice;
     private readonly IDiceRoller _diceRoller;
     private readonly IPickTarget _pickTarget;
-    private readonly IActionWriter _actionWriter;
 
     public EnemyRound(
       IDiceMover diceMover,
@@ -25,8 +23,7 @@ namespace Code.StateMachine
       IPlayerHandler playerHandler,
       IEnemyDiceHandler enemyDice,
       IDiceRoller diceRoller,
-      IPickTarget pickTarget,
-      IActionWriter actionWriter)
+      IPickTarget pickTarget)
     {
       _diceMover = diceMover;
       _cardPositioner = cardPositioner;
@@ -35,7 +32,6 @@ namespace Code.StateMachine
       _enemyDice = enemyDice;
       _diceRoller = diceRoller;
       _pickTarget = pickTarget;
-      _actionWriter = actionWriter;
     }
 
     public async  void Enter()
@@ -45,11 +41,11 @@ namespace Code.StateMachine
         _cardPositioner.CalculatePosition(_playerHandler.Card));
       
       await _diceMover.ToBoard(_enemyDice.EnemyDice);
-      await _diceRoller.Role(_enemyDice.EnemyDice);
+      await _diceRoller.Role();
       await _diceMover.ToCard(_enemyDice.EnemyDice);
       await _pickTarget.SelectTarget(_enemyHandler.Card);
-      _actionWriter.Release();
       
+      ChangeState?.Invoke(typeof(PlayerRoll));
     }
 
     public void Exit()

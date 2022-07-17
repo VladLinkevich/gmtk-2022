@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114663224393211024}
   - component: {fileID: 114535529759102160}
   - component: {fileID: 3862279273073038491}
+  - component: {fileID: 4920595871647582099}
   m_Layer: 8
   m_Name: dice
   m_TagString: Untagged
@@ -216,6 +217,19 @@ MonoBehaviour:
   - {fileID: 6272866532966143914}
   - {fileID: 2498178724384720066}
   - {fileID: 2883003782979776988}
+--- !u!114 &4920595871647582099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131659816781192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a6ef8f1c1e4be59140744827d8f443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ignore: 1
 --- !u!1001 &391327169524643881
 PrefabInstance:
   m_ObjectHideFlags: 0

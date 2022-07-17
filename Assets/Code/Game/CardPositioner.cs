@@ -27,9 +27,11 @@ namespace Code.Game
 
     public async UniTask CalculatePosition(List<CardFacade> cards)
     {
+      if (cards.Count == 1) return;
+      
       Tween tween = null;
       float border = ((cards.Count + (cards.Count - 1) * _settings.Offset) - 1) / 2;
-      
+
       for (int i = 0, end = cards.Count - 1; i <= end; ++i)
       {
         float endValue = Mathf.Lerp(-border, border, (float)i / end);
