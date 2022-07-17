@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Code.Facade
 {
-  public class ObserveDiceOnClick : MonoBehaviour
+  public class ObserveOnClick : MonoBehaviour
   {
     public event Action Click;
     

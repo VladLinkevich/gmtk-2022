@@ -20,7 +20,7 @@ namespace Code.Facade
     public DieSides DieSides;
 
     [ReadOnly] 
-    public ObserveDiceOnClick ObserveDice;
+    public ObserveOnClick Observe;
 
     public MeshRenderer Renderer;
     public Rigidbody Rigidbody;
@@ -38,13 +38,13 @@ namespace Code.Facade
     private void OnEnable()
     {
       Die.OnRollEnd += UpdateSkill;
-      ObserveDice.Click += OnClick;
+      Observe.Click += OnClick;
     }
 
     private void OnDisable()
     {
       Die.OnRollEnd -= UpdateSkill;
-      ObserveDice.Click -= OnClick;
+      Observe.Click -= OnClick;
     }
 
     public void ActivatePhysic(bool flag)
@@ -76,7 +76,7 @@ namespace Code.Facade
     {
       Die = GetComponent<Die>();
       DieSides = GetComponent<DieSides>();
-      ObserveDice = GetComponent<ObserveDiceOnClick>();
+      Observe = GetComponent<ObserveOnClick>();
     }
 
 #endif

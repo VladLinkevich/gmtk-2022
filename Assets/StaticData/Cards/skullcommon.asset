@@ -19,13 +19,13 @@ MonoBehaviour:
   Sides:
   - Type: 133
     Value: 2
-  - Type: 68
-    Value: 2
-  - Type: 0
-    Value: 0
-  - Type: 0
-    Value: 0
-  - Type: 68
+  - Type: 133
+    Value: 1
+  - Type: 133
+    Value: 1
+  - Type: 133
+    Value: 1
+  - Type: 133
     Value: 1
   - Type: 133
     Value: 1

@@ -39,7 +39,7 @@ namespace Code.StateMachine
     private void IgnoreClickObserver(bool flag)
     {
       foreach (DiceFacade die in _playerDice.PlayerDice)
-        die.ObserveDice.Ignore = flag;
+        die.Observe.Ignore = flag;
     }
   }
 }

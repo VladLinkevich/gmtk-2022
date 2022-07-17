@@ -77,13 +77,13 @@ namespace Code.Game
     {
       DiceOnBoard.Add(die);
 
-      die.ObserveDice.Ignore = !false;
+      die.Observe.Ignore = !false;
 
       RotateToCard(die, die.SaveRotation.y);
       MoveDie(die, die.SavePosition)
         .OnComplete(() =>
         {
-          die.ObserveDice.Ignore = !true;
+          die.Observe.Ignore = !true;
           die.ActivatePhysic(true);
         });
     }
@@ -93,11 +93,11 @@ namespace Code.Game
       DiceOnBoard.Remove(die);
 
       die.SavePositionAndRotation();
-      die.ObserveDice.Ignore = !false;
+      die.Observe.Ignore = !false;
       die.ActivatePhysic(false);
 
       MoveToCard(die)
-        .OnComplete(() => die.ObserveDice.Ignore = !true);
+        .OnComplete(() => die.Observe.Ignore = !true);
     }
 
     private Tween MoveToCard(DiceFacade die)
