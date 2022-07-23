@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Code.Data;
 using Code.Facade;
 
@@ -15,14 +14,17 @@ namespace Code.Game
   {
     private readonly IEnemyHandler _enemyHandler;
     private readonly Dictionary<CardFacade, CardFacade> _actions = new Dictionary<CardFacade, CardFacade>();
+    private readonly ILoadLevel _loadLevel;
 
     public ActionWriter(
-      IEnemyHandler enemyHandler)
+      IEnemyHandler enemyHandler,
+      IPlayerHandler playerHandler,
+      ILoadLevel loadLevel)
     {
       _enemyHandler = enemyHandler;
+      _loadLevel = loadLevel;
 
-      foreach (CardFacade card in _enemyHandler.Card) 
-        card.DestroyCard += Clear;
+      _loadLevel.Complete += Subscribe;
     }
 
     public void Write(CardFacade from, CardFacade to)
@@ -40,13 +42,27 @@ namespace Code.Game
     {
       foreach (var action in _actions) 
         action.Value.HpBarFacade.Hit(action.Key.DiceFacade.Current.Value.Get);
+      
+      _actions.Clear();
     }
 
     private void Clear(CardFacade from)
     {
       from.DestroyCard -= Clear;
-      _actions[from].HpBarFacade.RemoveToPreview(from.DiceFacade.Current.Value.Get);
-      _actions.Remove(from);
+      
+      if (_actions.ContainsKey(from))
+      {
+        _actions[from].HpBarFacade.RemoveToPreview(from.DiceFacade.Current.Value.Get);
+        _actions.Remove(from);
+      }
+    }
+
+    private void Subscribe()
+    {
+      _loadLevel.Complete -= Subscribe;
+      
+      foreach (CardFacade card in _enemyHandler.Card) 
+        card.DestroyCard += Clear;
     }
   }
 }

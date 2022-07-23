@@ -39,11 +39,12 @@ namespace Code.Facade
       HpBarFacade.Destroy -= LoseHp;
     }
 
-    private void LoseHp() => 
-      Destroy(gameObject);
-
-    private void OnDestroy() => 
+    private void LoseHp()
+    {
       DestroyCard?.Invoke(this);
+      Destroy(gameObject);
+    }
+
 
     private void OnDown() => 
       Down?.Invoke(this);

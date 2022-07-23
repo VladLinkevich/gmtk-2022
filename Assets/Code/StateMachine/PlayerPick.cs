@@ -2,6 +2,7 @@
 using Code.Data;
 using Code.Facade;
 using Code.Game;
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -20,8 +21,9 @@ namespace Code.StateMachine
     private readonly int _groundMask;
     
     private CardFacade _pickCard;
-    private static readonly int Hide = Animator.StringToHash("Hide");
+    private static readonly int Hide = Animator.StringToHash("hide");
     private static readonly int Pick = Animator.StringToHash("pick");
+    private int _usedCard;
 
     public event Action<Type> ChangeState;
 
@@ -46,6 +48,12 @@ namespace Code.StateMachine
 
     public void Enter()
     {
+      if (PlayerPrefs.HasKey("tutor_two") == false)
+      {
+        PlayerPrefs.SetInt("tutor_two", 99);
+        GameObject.FindGameObjectWithTag("tutor_two").transform.DOMoveX(0, 0.5f);
+      }
+      
       _boardFacade.Animator.SetTrigger(Pick);
 
       foreach (CardFacade card in _playerHandler.Card)
@@ -54,6 +62,7 @@ namespace Code.StateMachine
         {
           card.MouseObserver.Ignore = false;
           card.Down += PickCard;
+          ++_usedCard;
         }
       }
 
@@ -111,6 +120,10 @@ namespace Code.StateMachine
       if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Use)) != 0) 
         FindHitCard();
 
+      if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Def)) == SideAction.Def)
+        FindPlayerCard();
+
+
       _pickCard = null;
       _arrow.Player.gameObject.SetActive(false);
     }
@@ -129,11 +142,34 @@ namespace Code.StateMachine
       }
     }
 
+    private void FindPlayerCard()
+    {
+      Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+      if (Physics.RaycastNonAlloc(ray, _result, 50, _cardMask) == 1)
+      {
+        CardFacade card = _result[0].transform.gameObject.GetComponentInParent<CardFacade>();
+        if (_playerHandler.Card.Contains(card))
+        {
+          if (_pickCard.DiceFacade.Current.Type == SideType.Shield)
+            card.HpBarFacade.AddShield(_pickCard.DiceFacade.Current.Value.Get);
+          
+          if (_pickCard.DiceFacade.Current.Type == SideType.Life)
+            card.HpBarFacade.AddHeal(_pickCard.DiceFacade.Current.Value.Get);
+
+          UseCard(_pickCard);
+        }
+      }
+    }
+
     private void UseCard(CardFacade card)
     {
       card.MouseObserver.Ignore = true;
       card.Down -= PickCard;
       card.Character.color = Color.gray;
+
+      --_usedCard;
+      if (_usedCard == 0) 
+        ChangeState?.Invoke(typeof(RoundEndAction));
     }
   }
 }

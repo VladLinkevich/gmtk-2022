@@ -71,6 +71,7 @@ namespace Code.Game
         _enemyHandler.Card.Remove(card);
         if (_enemyHandler.Card.Count == 0)
         {
+          Debug.Log("Win");
           int level = PlayerPrefs.GetInt("level", 0) + 1;
           PlayerPrefs.SetInt("level", level);
           Win?.Invoke();

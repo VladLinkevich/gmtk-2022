@@ -62,30 +62,30 @@ namespace Code.Game
     {
       _cardFactory.CreateEnemyCard(CardType.SkullCommon);
       _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.Warrior);
+      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
     }
     
     private void LevelFour()
     {
-      _cardFactory.CreateEnemyCard(CardType.Warrior);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.Warrior);
+      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
+      _cardFactory.CreateEnemyCard(CardType.SkullMage);
+      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
     }
 
     private void LevelFive()
     {
       _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
       _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
+      _cardFactory.CreateEnemyCard(CardType.SkullMage);
       _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
     }
     
     private void LevelSix()
     {
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      _cardFactory.CreateEnemyCard(CardType.SkullMage);
       _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
       _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      _cardFactory.CreateEnemyCard(CardType.SkullMage);
     }
     
     private void LevelSeven()

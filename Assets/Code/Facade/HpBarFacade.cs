@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 namespace Code.Facade
@@ -13,55 +14,90 @@ namespace Code.Facade
     public Color PreviewColor;
     
     public SpriteRenderer[] Hps;
+    public SpriteRenderer Shield;
+    public TextMeshPro ShildText;
 
     private int _maxHp;
     private int _current;
     private int _preview;
+    private int _shield;
 
     public int Current => _current;
     
     public void Set(int value)
     {
-      _maxHp = _current;
       _current = value;
-      SetupCount(value);
+      _maxHp = _current;
+      UpdateBar();
     }
-
-    private void SetupCount(int value)
-    {
-      for (int i = 0, end = Hps.Length; i < end; ++i)
-        Hps[i].color = (i < value) ? ActiveColor : DeactiveColor;
-    }
+    
 
     public void AddToPreview(int value)
     {
       _preview = Mathf.Max(_preview + value, 0);
-      
-      for (int i = _current - 1, end = Mathf.Max(_current - _preview, 0); i >= end; --i) 
-        Hps[i].color = PreviewColor;
+
+      UpdateBar();
     }
 
     public void RemoveToPreview(int value)
     {
       _preview = Mathf.Max(_preview - value, 0);
-      
-      for (int i = 0, end = Mathf.Max(_current - _preview, 0); i < end; ++i)
-        if (Hps[i] != null)
-          Hps[i].color = ActiveColor;
+
+      UpdateBar();
     }
 
-    public void Hit(int value)
+    public void Hit(int damage)
     {
-      value = Mathf.Max(value, 0);
-      _preview = Mathf.Max(_preview - value, 0);
+      damage = Mathf.Max(damage, 0);
+      int value = Mathf.Min(_shield, damage);
       
-      for (int i = _current - 1, end = Mathf.Max(_current - value, 0); i >= end; --i) 
-        Hps[i].color = HitColor;
+      _shield -= value;
+      damage -= value;
+      
+      damage = Mathf.Max(damage, 0);
+      _preview = Mathf.Max(_preview - damage, 0);
+      _current -= damage;
 
-      _current -= value;
+      UpdateBar();
+
       
       if (_current <= 0) 
         Destroy?.Invoke();
+    }
+
+    public void AddShield(int shield)
+    {
+      _shield = shield;
+      UpdateBar();
+    }
+
+    public void AddHeal(int health)
+    {
+      _current = Mathf.Max(_current + health, _maxHp);
+      UpdateBar();
+    }
+
+    private void UpdateBar()
+    {
+      int preview = _current + _shield - _preview;
+      
+      for (int i = 0; i < Hps.Length; ++i)
+      {
+        Color color = DeactiveColor;
+
+        if (i < _maxHp) color = HitColor;
+        if (i < _current) color = PreviewColor;
+        if (i < _current + _shield - _preview) color = ActiveColor;
+
+        Hps[i].color = color;
+      }
+
+      if (_shield == 0) Shield.gameObject.SetActive(false);
+      else
+      {
+        Shield.gameObject.SetActive(true);
+        ShildText.text = _shield.ToString();
+      }
     }
   }
 }
