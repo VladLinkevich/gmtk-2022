@@ -21,7 +21,6 @@ namespace Code.Facade
 
     [ReadOnly] 
     public ObserveOnClick Observe;
-
     public MeshRenderer Renderer;
     public Rigidbody Rigidbody;
     public MeshCollider Collider;

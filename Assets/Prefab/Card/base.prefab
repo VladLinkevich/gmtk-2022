@@ -43,6 +43,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2764255990750144491}
   - component: {fileID: 4936333000615207010}
+  - component: {fileID: 1207796072039621949}
+  - component: {fileID: 3844234168834158642}
   m_Layer: 13
   m_Name: base
   m_TagString: Untagged
@@ -85,6 +87,38 @@ MonoBehaviour:
   Label: {fileID: 1203744944760509552}
   DiceFacade: {fileID: 6054229231802019178}
   HpBarFacade: {fileID: 1725154651330899311}
+  MouseObserver: {fileID: 7490479789280420038}
+--- !u!114 &1207796072039621949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462861968629595128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 3844234168834158642}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &3844234168834158642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462861968629595128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ade32c2c344741e3b685ac1a2a16ea1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardFacade: {fileID: 4936333000615207010}
   MouseObserver: {fileID: 7490479789280420038}
 --- !u!1 &1961051429372143055
 GameObject:

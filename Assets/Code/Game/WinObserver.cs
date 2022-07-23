@@ -1,5 +1,6 @@
 ﻿using System;
 using Code.Facade;
+using Code.Game.CardLogic;
 using UnityEngine;
 
 namespace Code.Game
@@ -40,10 +41,10 @@ namespace Code.Game
     private void Initialize()
     {
       foreach (CardFacade card in _playerHandler.Card) 
-        card.DestroyCard += ChangeCard;
+        card.Destroy += ChangeCard;
       
       foreach (CardFacade card in _enemyHandler.Card) 
-        card.DestroyCard += ChangeCard;
+        card.Destroy += ChangeCard;
     }
 
     private void ChangeCard(CardFacade card)

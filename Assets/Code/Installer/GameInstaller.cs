@@ -1,5 +1,6 @@
 ﻿using Code.Facade;
 using Code.Game;
+using Code.Game.CardLogic;
 using Code.StateMachine;
 using Zenject;
 
@@ -19,6 +20,7 @@ namespace Code.Installer
       BindEnemyLogic();
       BindBoard();
       BindWinObserver();
+      BindInput();
     }
 
     private void BindWinObserver() =>
@@ -114,6 +116,11 @@ namespace Code.Installer
       Container
         .Bind<BoardFacade>()
         .FromInstance(BoardFacade)
+        .AsSingle();
+
+    private void BindInput() =>
+      Container
+        .Bind<Control>()
         .AsSingle();
   }
 }

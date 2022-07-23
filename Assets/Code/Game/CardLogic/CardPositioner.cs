@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace Code.Game
+namespace Code.Game.CardLogic
 {
   public interface ICardPositioner
   {
@@ -35,7 +35,7 @@ namespace Code.Game
       for (int i = 0, end = cards.Count - 1; i <= end; ++i)
       {
         float endValue = Mathf.Lerp(-border, border, (float)i / end);
-        tween = cards[i].transform.DOLocalMoveX(endValue, _settings.Duration);
+        tween = cards[i].Transform.DOLocalMoveX(endValue, _settings.Duration);
       }
       
       await tween;

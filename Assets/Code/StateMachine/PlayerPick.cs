@@ -2,6 +2,7 @@
 using Code.Data;
 using Code.Facade;
 using Code.Game;
+using Code.Game.CardLogic;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -61,8 +62,8 @@ namespace Code.StateMachine
         if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Def | SideAction.Use)) != 0)
         {
           card.MouseObserver.Ignore = false;
-          card.Down += PickCard;
           ++_usedCard;
+          // card.Down += PickCard;
         }
       }
 
@@ -106,16 +107,16 @@ namespace Code.StateMachine
 
     private void PickCard(CardFacade card)
     {
-      card.Down -= PickCard;
-      card.Up += ThrowCard;
+     // card.Down -= PickCard;
+      //card.Up += ThrowCard;
       _pickCard = card;
       _arrow.Player.gameObject.SetActive(true);
     }
 
     private void ThrowCard(CardFacade card)
     {
-      card.Up -= ThrowCard;
-      card.Down += PickCard;
+      //card.Up -= ThrowCard;
+     // card.Down += PickCard;
 
       if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Use)) != 0) 
         FindHitCard();
@@ -164,7 +165,7 @@ namespace Code.StateMachine
     private void UseCard(CardFacade card)
     {
       card.MouseObserver.Ignore = true;
-      card.Down -= PickCard;
+//      card.Down -= PickCard;
       card.Character.color = Color.gray;
 
       --_usedCard;

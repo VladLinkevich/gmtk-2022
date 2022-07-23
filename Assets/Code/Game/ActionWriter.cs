@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Code.Data;
 using Code.Facade;
+using Code.Game.CardLogic;
 
 namespace Code.Game
 {
@@ -29,7 +30,7 @@ namespace Code.Game
 
     public void Write(CardFacade from, CardFacade to)
     {
-      from.DestroyCard += Clear;
+      from.Destroy += Clear;
 
       if (((SideAction) from.DiceFacade.Current.Type & SideAction.Attack) == SideAction.Attack)
       {
@@ -48,7 +49,7 @@ namespace Code.Game
 
     private void Clear(CardFacade from)
     {
-      from.DestroyCard -= Clear;
+      from.Destroy -= Clear;
       
       if (_actions.ContainsKey(from))
       {
@@ -62,7 +63,7 @@ namespace Code.Game
       _loadLevel.Complete -= Subscribe;
       
       foreach (CardFacade card in _enemyHandler.Card) 
-        card.DestroyCard += Clear;
+        card.Destroy += Clear;
     }
   }
 }

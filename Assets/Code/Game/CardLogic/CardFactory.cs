@@ -5,8 +5,9 @@ using Code.Facade;
 using Code.Services.ResourceLoadService;
 using Code.StaticData;
 using UnityEngine;
+using Zenject;
 
-namespace Code.Game
+namespace Code.Game.CardLogic
 {
   public interface ICardFactory
   {
@@ -77,36 +78,37 @@ namespace Code.Game
 
     public GameObject CreatePlayerCard(CardType type)
     {
-      CardData data = _dataHandler.GetCardData(type);
-      GameObject card = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
-
-      CardFacade facade = card.GetComponent<CardFacade>();
-      
-      SetupCardFacade(facade, data);
-      SetupDice(facade.DiceFacade, data);
+      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
+      CardFacade facade = SetupCard(prefab, type);
 
       _playerCard.Add(facade);
       PlayerDice.Add(facade.DiceFacade);
-      
       PlayerCardCreate?.Invoke(facade);
       
-      return card;
+      return prefab;
     }
 
     public GameObject CreateEnemyCard(CardType type)
     {
-        CardData data = _dataHandler.GetCardData(type);
-        GameObject card = UnityEngine.Object.Instantiate(_settings.EnemyCard, _enemyRoot);
-
-        CardFacade facade = card.GetComponent<CardFacade>();
-        SetupCardFacade(facade, data);
-        SetupDice(facade.DiceFacade, data);
+        GameObject prefab = UnityEngine.Object.Instantiate(_settings.EnemyCard, _enemyRoot);
+        CardFacade facade = SetupCard(prefab, type);
 
         _enemyCard.Add(facade);
         EnemyDice.Add(facade.DiceFacade);
         EnemyCardCreate?.Invoke(facade);
       
-        return card;
+        return prefab;
+    }
+
+    private CardFacade SetupCard(GameObject prefab, CardType type)
+    {
+      CardData data = _dataHandler.GetCardData(type);
+      CardFacade facade = prefab.GetComponent<CardFacade>();
+
+      SetupCardFacade(facade, data);
+      SetupDice(facade.DiceFacade, data);
+      
+      return facade;
     }
 
     private void SetupCardFacade(CardFacade facade, CardData data)
@@ -130,14 +132,13 @@ namespace Code.Game
         facade.Sides[i].Value.Set(data.Sides[i].Value);
       }
     }
-
-
+    
     private void GetCardsRoot()
     {
       _playerRoot = UnityEngine.GameObject.FindGameObjectWithTag(PlayerRootTag).transform;
       _enemyRoot = UnityEngine.GameObject.FindGameObjectWithTag(EnemyRootTag).transform;
     }
-    
+
     [Serializable]
     public class Settings
     {

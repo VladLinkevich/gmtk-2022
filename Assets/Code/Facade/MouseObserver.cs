@@ -1,46 +1,46 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Code.Facade
 {
-  public class MouseObserver : MonoBehaviour
-
+  public class MouseObserver : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
+    IPointerExitHandler
   {
-  public event Action Enter;
-  public event Action Exit;
-  public event Action Down;
-  public event Action Up;
+    public event Action Enter;
+    public event Action Exit;
+    public event Action Down;
+    public event Action Up;
 
-  public bool Ignore;
+    public bool Ignore;
 
-  private void OnMouseEnter()
-  {
-    if (Ignore) return;
-    
-    Enter?.Invoke();
-  }
 
-  private void OnMouseExit()
-  {
-    if (Ignore) return;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+      if (Ignore) return;
 
-    Exit?.Invoke();
-  }
+      Down?.Invoke();
+    }
 
-  private void OnMouseDown()
-  {
-    if (Ignore) return;
+    public void OnPointerUp(PointerEventData eventData)
+    {
+      if (Ignore) return;
 
-    Debug.Log("Down");
-    Down?.Invoke();
-  }
+      Up?.Invoke();
+    }
 
-  private void OnMouseUp()
-  {
-    if (Ignore) return;
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+      if (Ignore) return;
 
-    Debug.Log("Up");
-    Up?.Invoke();
-  }
+      Enter?.Invoke();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+      if (Ignore) return;
+
+      Exit?.Invoke();
+    }
   }
 }

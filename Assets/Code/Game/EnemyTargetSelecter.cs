@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Code.Data;
 using Code.Facade;
+using Code.Game.CardLogic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace Code.Game
           _actionWriter.Write(card, target);
           card.gameObject
             .GetComponent<EnemyTargetView>()
-            .Setup(_arrow.Enemy, target.transform.position);
+            .Setup(_arrow.Enemy, target.Transform.position);
         }
       }
 
@@ -61,7 +62,7 @@ namespace Code.Game
       float time = 0;
       
       Vector3 start = dice.transform.position;
-      Vector3 end = target.transform.position;
+      Vector3 end = target.Transform.position;
 
       _arrow.Enemy.gameObject.SetActive(true);
       _arrow.Enemy.SetPositions(start, start);
