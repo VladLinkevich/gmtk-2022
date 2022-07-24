@@ -12,6 +12,7 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -151,5 +152,8 @@ sysinfo.txt
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+/[Pp]rojectSettings/[Rr]iderScriptEditorPersistedState.asset
+
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,rider
