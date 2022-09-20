@@ -6,40 +6,32 @@ namespace Code.StateMachine
 {
   public class RoundStateMachine
   {
-    private readonly ILoadLevel _level;
     private readonly WinState _winState;
 
-    private Dictionary<Type, IState> _states;
+    private readonly Dictionary<Type, IState> _states;
     private IState _currentState;
 
     public RoundStateMachine(
-      ILoadLevel level,
+      LevelLoader loader,
+      PreviewState preview,
       EnemyRound enemyRound,
       PlayerRoll playerRoll,
       PlayerPick playerPick,
       RoundEndAction roundEndAction,
       WinState winState)
     {
-      _level = level;
-
       _states = new Dictionary<Type, IState>()
       {
+        {typeof(LevelLoader), loader},
+        {typeof(PreviewState), preview},
         {typeof(EnemyRound), enemyRound},
         {typeof(PlayerRoll), playerRoll},
         {typeof(PlayerPick), playerPick},
         {typeof(RoundEndAction), roundEndAction},
         {typeof(WinState), winState},
       };
-
-      _level.Complete += Initialize;
     }
-
-    private void Initialize()
-    {
-      _level.Complete -= Initialize;
-      EnterToState(typeof(EnemyRound));
-    }
-
+    
     private void ChangeState(Type type)
     {
       ExitToCurrentState();

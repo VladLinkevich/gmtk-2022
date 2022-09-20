@@ -12,7 +12,6 @@ namespace Code.Installer
     
     public override void InstallBindings()
     {
-      BindLevelLoader();
       BindFactory();
       BindHandlers();
       BindStateMachine();
@@ -21,8 +20,17 @@ namespace Code.Installer
       BindBoard();
       BindWinObserver();
       BindInput();
+      BindCardDestroyer();
     }
-
+    
+    private void BindCardDestroyer()
+    {
+      Container
+        .Bind<ICardDestroyer>()
+        .To<CardDestroyer>()
+        .AsSingle();
+    }
+    
     private void BindWinObserver() =>
       Container
         .Bind<IWinObserver>()
@@ -52,12 +60,6 @@ namespace Code.Installer
         .BindInterfacesTo<ObjectFactory>()
         .AsSingle();
     }
-
-    private void BindLevelLoader() => 
-      Container
-        .BindInterfacesTo<LevelLoader>()
-        .AsSingle()
-        .NonLazy();
 
     private void BindHandlers() =>
       Container
@@ -97,6 +99,14 @@ namespace Code.Installer
 
       Container
         .Bind<PlayerRoll>()
+        .AsSingle();
+      
+      Container
+        .Bind<LevelLoader>()
+        .AsSingle();
+      
+      Container
+        .Bind<PreviewState>()
         .AsSingle();
 
       Container

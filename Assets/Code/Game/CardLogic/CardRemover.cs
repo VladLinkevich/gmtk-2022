@@ -18,7 +18,6 @@ namespace Code.Game.CardLogic
     public event Action<CardFacade> Destroy; 
 
     public CardDestroyer(
-      ILoadLevel loadLevel,
       IPlayerHandler playerHandler,
       IEnemyHandler enemyHandler,
       IPlayerDiceHandler playerDice,
@@ -28,8 +27,6 @@ namespace Code.Game.CardLogic
       _enemyHandler = enemyHandler;
       _playerDice = playerDice;
       _enemyDice = enemyDice;
-
-      loadLevel.Complete += Initialize;
     }
     
     private void Initialize()

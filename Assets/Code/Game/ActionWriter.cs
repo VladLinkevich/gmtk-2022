@@ -15,17 +15,12 @@ namespace Code.Game
   {
     private readonly IEnemyHandler _enemyHandler;
     private readonly Dictionary<CardFacade, CardFacade> _actions = new Dictionary<CardFacade, CardFacade>();
-    private readonly ILoadLevel _loadLevel;
+
 
     public ActionWriter(
-      IEnemyHandler enemyHandler,
-      IPlayerHandler playerHandler,
-      ILoadLevel loadLevel)
+      IEnemyHandler enemyHandler)
     {
       _enemyHandler = enemyHandler;
-      _loadLevel = loadLevel;
-
-      _loadLevel.Complete += Subscribe;
     }
 
     public void Write(CardFacade from, CardFacade to)
@@ -60,8 +55,6 @@ namespace Code.Game
 
     private void Subscribe()
     {
-      _loadLevel.Complete -= Subscribe;
-      
       foreach (CardFacade card in _enemyHandler.Card) 
         card.Destroy += Clear;
     }

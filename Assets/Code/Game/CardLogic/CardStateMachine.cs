@@ -6,9 +6,6 @@ namespace Code.Game.CardLogic
 {
   public class CardStateMachine
   {
-    private readonly ILoadLevel _level;
-    private readonly WinState _winState;
-
     private Dictionary<Type, IState> _states;
     private IState _currentState;
 
