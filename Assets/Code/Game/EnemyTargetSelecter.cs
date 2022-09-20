@@ -6,6 +6,7 @@ using Code.Game.CardLogic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Game
 {
@@ -17,18 +18,18 @@ namespace Code.Game
   public class EnemyTargetSelecter : IPickTarget
   {
     private readonly IArrow _arrow;
-    private readonly IPlayerHandler _playerHandler;
+    private readonly IDeck _player;
     private readonly IActionWriter _actionWriter;
     private readonly Settings _settings;
 
     public EnemyTargetSelecter(
       IArrow arrow,
-      IPlayerHandler playerHandler,
+      [Inject (Id = DeckType.Player)] IDeck player,
       IActionWriter actionWriter,
       Settings settings)
     {
       _arrow = arrow;
-      _playerHandler = playerHandler;
+      _player = player;
       _actionWriter = actionWriter;
       _settings = settings;
     }
@@ -40,7 +41,7 @@ namespace Code.Game
         DiceFacade dice = card.DiceFacade;
         if (((SideAction) dice.Current.Type & SideAction.Attack) == SideAction.Attack)
         {
-          CardFacade target = GetTarget(_playerHandler.Card);
+          CardFacade target = GetTarget(_player.Card);
           await AnimateArrow(dice, target);
           _actionWriter.Write(card, target);
           card.gameObject

@@ -5,14 +5,12 @@ using Code.Facade;
 using Code.Services.ResourceLoadService;
 using Code.StaticData;
 using UnityEngine;
-using Zenject;
 
 namespace Code.Game.CardLogic
 {
   public interface ICardFactory
   {
-    GameObject CreatePlayerCard(CardType type);
-    GameObject CreateEnemyCard(CardType type);
+    CardFacade CreateCard(CardType type);
   }
 
   public interface IEnemyHandler
@@ -21,31 +19,15 @@ namespace Code.Game.CardLogic
     List<CardFacade> Card { get; }
   }
 
-  public interface IPlayerHandler
-  {
-    event Action<CardFacade> PlayerCardCreate;
-    List<CardFacade> Card { get; }
-  }
-
-  public interface IPlayerDiceHandler
-  {
-    List<DiceFacade> PlayerDice { get; }
-  }
-
   public interface IEnemyDiceHandler
   {
     List<DiceFacade> EnemyDice { get; }
   }
 
-  public class CardFactory : ICardFactory, IEnemyHandler, IPlayerHandler, IPlayerDiceHandler, IEnemyDiceHandler
+  public class CardFactory : ICardFactory, IEnemyHandler, IEnemyDiceHandler
   {
-    private const string PlayerRootTag = "player_root";
-    private const string EnemyRootTag = "enemy_root";
-    
-    public event Action<CardFacade> PlayerCardCreate;
     public event Action<CardFacade> EnemyCardCreate;
-
-    List<CardFacade> IPlayerHandler.Card => _playerCard;
+    
     List<CardFacade> IEnemyHandler.Card => _enemyCard;
     
     public List<DiceFacade> PlayerDice { get; private set; } = new List<DiceFacade>();
@@ -56,11 +38,9 @@ namespace Code.Game.CardLogic
     private readonly SideHandler _sideHandler;
     private readonly Settings _settings;
 
-    private readonly List<CardFacade> _playerCard = new List<CardFacade>();
     private readonly List<CardFacade> _enemyCard = new List<CardFacade>();
 
-    private Transform _playerRoot;
-    private Transform _enemyRoot;
+    private Transform _root;
 
     public CardFactory(
       IResourceLoader loader,
@@ -73,24 +53,25 @@ namespace Code.Game.CardLogic
       _sideHandler = sideHandler;
       _settings = settings;
 
-      GetCardsRoot();
+      CreateFactoryRoot();
     }
 
-    public GameObject CreatePlayerCard(CardType type)
+    private void CreateFactoryRoot()
     {
-      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, _playerRoot);
+      _root = new GameObject(nameof(CardFactory)).transform;
+    }
+
+    public CardFacade CreateCard(CardType type)
+    {
+      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, _root);
       CardFacade facade = SetupCard(prefab, type);
 
-      _playerCard.Add(facade);
-      PlayerDice.Add(facade.DiceFacade);
-      PlayerCardCreate?.Invoke(facade);
-      
-      return prefab;
+      return facade;
     }
 
     public GameObject CreateEnemyCard(CardType type)
     {
-        GameObject prefab = UnityEngine.Object.Instantiate(_settings.EnemyCard, _enemyRoot);
+        GameObject prefab = UnityEngine.Object.Instantiate(_settings.EnemyCard, _root);
         CardFacade facade = SetupCard(prefab, type);
 
         _enemyCard.Add(facade);
@@ -133,11 +114,7 @@ namespace Code.Game.CardLogic
       }
     }
     
-    private void GetCardsRoot()
-    {
-      _playerRoot = UnityEngine.GameObject.FindGameObjectWithTag(PlayerRootTag).transform;
-      _enemyRoot = UnityEngine.GameObject.FindGameObjectWithTag(EnemyRootTag).transform;
-    }
+
 
     [Serializable]
     public class Settings

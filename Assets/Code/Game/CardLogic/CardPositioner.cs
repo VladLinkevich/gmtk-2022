@@ -17,8 +17,6 @@ namespace Code.Game.CardLogic
     private readonly Settings _settings;
 
     public CardPositioner(
-      IEnemyHandler enemyHandler,
-      IPlayerHandler playerHandler,
       Settings settings)
     {
       _settings = settings;

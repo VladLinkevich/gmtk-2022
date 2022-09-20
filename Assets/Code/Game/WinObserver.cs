@@ -1,7 +1,9 @@
 ﻿using System;
+using Code.Data;
 using Code.Facade;
 using Code.Game.CardLogic;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Game
 {
@@ -17,16 +19,16 @@ namespace Code.Game
     public event Action Lose;
 
     private readonly ICardDestroyer _cardDestroyer;
-    private readonly IPlayerHandler _playerHandler;
+    private readonly IDeck _player;
     private readonly IEnemyHandler _enemyHandler;
 
     public WinObserver(
       ICardDestroyer cardDestroyer,
-      IPlayerHandler playerHandler,
+      [Inject (Id = DeckType.Player)]  IDeck player,
       IEnemyHandler enemyHandler)
     {
       _cardDestroyer = cardDestroyer;
-      _playerHandler = playerHandler;
+      _player = player;
       _enemyHandler = enemyHandler;
       
       _cardDestroyer.Destroy += Observe;
@@ -34,7 +36,7 @@ namespace Code.Game
 
     private void Observe(CardFacade card)
     {
-      if (_playerHandler.Card.Count == 0) 
+      if (_player.Card.Count == 0) 
         Lose?.Invoke();
       
       if (_enemyHandler.Card.Count == 0)
@@ -49,10 +51,10 @@ namespace Code.Game
 
     private void IsLose(CardFacade card)
     {
-      if (_playerHandler.Card.Contains(card))
+      if (_player.Card.Contains(card))
       {
 
-        if (_playerHandler.Card.Count == 0) 
+        if (_player.Card.Count == 0) 
           Lose?.Invoke();
       }
     }

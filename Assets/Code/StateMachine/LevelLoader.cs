@@ -3,6 +3,7 @@ using Code.Data;
 using Code.Game.CardLogic;
 using Code.StateMachine;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Game
 {
@@ -10,15 +11,16 @@ namespace Code.Game
   public class LevelLoader : IState
   {
     public event Action<Type> ChangeState;
-
-    public event Action Complete;
-
-    private readonly ICardFactory _cardFactory;
+    
+    private readonly  IDeck _player;
+    private readonly IDeck _enemy;
 
     public LevelLoader(
-      ICardFactory cardFactory)
+      [Inject (Id = DeckType.Player)] IDeck player,
+      [Inject (Id = DeckType.Enemy)] IDeck enemy)
     {
-      _cardFactory = cardFactory;
+      _player = player;
+      _enemy = enemy;
     }
     
     public void Enter()
@@ -35,10 +37,10 @@ namespace Code.Game
       if (level == 6) LevelSeven();
       
 
-      _cardFactory.CreatePlayerCard(CardType.Archer);
-      _cardFactory.CreatePlayerCard(CardType.Mage);
-      _cardFactory.CreatePlayerCard(CardType.Rouge);
-      _cardFactory.CreatePlayerCard(CardType.Warrior);
+      _player.Add(CardType.Archer);
+      _player.Add(CardType.Mage);
+      _player.Add(CardType.Rouge);
+      _player.Add(CardType.Warrior);
       
       ChangeState?.Invoke(typeof(PreviewState));
     }
@@ -47,63 +49,54 @@ namespace Code.Game
     {
     }
 
-    public void Initialize()
-    {
-
-      //_cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      //_cardFactory.CreateEnemyCard(CardType.SkullCommon);
-
-      Complete?.Invoke();
-    }
-
     private void LevelOne()
     {
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      _enemy.Add(CardType.SkullCommon);
     }
 
     private void LevelTwo()
     {
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
-      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
+      _enemy.Add(CardType.SkullCommon);
+      _enemy.Add(CardType.SkullArcher);
+      _enemy.Add(CardType.SkullCommon);
     }
 
     private void LevelTree()
     {
-      _cardFactory.CreateEnemyCard(CardType.SkullCommon);
-      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
+      _enemy.Add(CardType.SkullCommon);
+      _enemy.Add(CardType.SkullArcher);
+      _enemy.Add(CardType.OgrWarrior);
     }
     
     private void LevelFour()
     {
-      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
-      _cardFactory.CreateEnemyCard(CardType.SkullMage);
-      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
+      _enemy.Add(CardType.OgrWarrior);
+      _enemy.Add(CardType.SkullMage);
+      _enemy.Add(CardType.OgrWarrior);
     }
 
     private void LevelFive()
     {
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.SkullArcher);
-      _cardFactory.CreateEnemyCard(CardType.SkullMage);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
+      _enemy.Add(CardType.OgrBerserk);
+      _enemy.Add(CardType.SkullArcher);
+      _enemy.Add(CardType.SkullMage);
+      _enemy.Add(CardType.OgrBerserk);
     }
     
     private void LevelSix()
     {
-      _cardFactory.CreateEnemyCard(CardType.SkullMage);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.SkullMage);
+      _enemy.Add(CardType.SkullMage);
+      _enemy.Add(CardType.OgrBerserk);
+      _enemy.Add(CardType.OgrBerserk);
+      _enemy.Add(CardType.SkullMage);
     }
     
     private void LevelSeven()
     {
-      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.OgrBerserk);
-      _cardFactory.CreateEnemyCard(CardType.OgrWarrior);
+      _enemy.Add(CardType.OgrWarrior);
+      _enemy.Add(CardType.OgrBerserk);
+      _enemy.Add(CardType.OgrBerserk);
+      _enemy.Add(CardType.OgrWarrior);
     }
   }
 }

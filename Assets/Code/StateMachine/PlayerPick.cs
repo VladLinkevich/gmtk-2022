@@ -11,7 +11,7 @@ namespace Code.StateMachine
 {
   public class PlayerPick : IState, ITickable
   {
-    private readonly IPlayerHandler _playerHandler;
+    private readonly IDeck _player;
     private readonly IEnemyHandler _enemyHandler;
     private readonly IArrow _arrow;
     private readonly IWinObserver _winObserver;
@@ -29,13 +29,13 @@ namespace Code.StateMachine
     public event Action<Type> ChangeState;
 
     public PlayerPick(
-      IPlayerHandler playerHandler,
+      [Inject (Id = DeckType.Player)] IDeck player,
       IEnemyHandler enemyHandler,
       IArrow arrow,
       IWinObserver winObserver,
       BoardFacade boardFacade)
     {
-      _playerHandler = playerHandler;
+      _player = player;
       _enemyHandler = enemyHandler;
       _arrow = arrow;
       _winObserver = winObserver;
@@ -57,7 +57,7 @@ namespace Code.StateMachine
       
       _boardFacade.Animator.SetTrigger(Pick);
 
-      foreach (CardFacade card in _playerHandler.Card)
+      foreach (CardFacade card in _player.Card)
       {
         if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Def | SideAction.Use)) != 0)
         {
@@ -82,7 +82,7 @@ namespace Code.StateMachine
       _winObserver.Lose -= CompleteLevel;
       _winObserver.Win -= CompleteLevel;
       
-      foreach (CardFacade card in _playerHandler.Card) 
+      foreach (CardFacade card in _player.Card) 
         card.Character.color = Color.white;
     }
 
@@ -149,7 +149,7 @@ namespace Code.StateMachine
       if (Physics.RaycastNonAlloc(ray, _result, 50, _cardMask) == 1)
       {
         CardFacade card = _result[0].transform.gameObject.GetComponentInParent<CardFacade>();
-        if (_playerHandler.Card.Contains(card))
+        if (_player.Card.Contains(card))
         {
           if (_pickCard.DiceFacade.Current.Type == SideType.Shield)
             card.HpBarFacade.AddShield(_pickCard.DiceFacade.Current.Value.Get);

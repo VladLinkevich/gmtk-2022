@@ -32,10 +32,10 @@ MonoBehaviour:
     - Zenject
     - UniTask
     - Assembly-CSharp
+    - Assembly-CSharp-firstpass
     - UniTask.Linq
     - UniTask.DOTween
     - Sirenix.OdinInspector.CompatibilityLayer
-    - Assembly-CSharp-firstpass
     - UniTask.TextMeshPro
     - UniTask.Addressables
     - Sirenix.OdinInspector.CompatibilityLayer.Editor

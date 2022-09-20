@@ -1,9 +1,11 @@
 ﻿using System;
+using Code.Data;
 using Code.Facade;
 using Code.Game;
 using Code.Game.CardLogic;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 namespace Code.StateMachine
 {
@@ -11,8 +13,7 @@ namespace Code.StateMachine
   {
     private readonly IDiceMover _diceMover;
     private readonly IDiceRoller _diceRoller;
-    private readonly IPlayerHandler _playerHandler;
-    private readonly IPlayerDiceHandler _playerDice;
+    private readonly IDeck _player;
     private readonly BoardFacade _boardFacade;
     private static readonly int Show = Animator.StringToHash("show");
     private int _role;
@@ -21,14 +22,12 @@ namespace Code.StateMachine
     public PlayerRoll(
       IDiceMover diceMover,
       IDiceRoller diceRoller,
-      IPlayerHandler playerHandler,
-      IPlayerDiceHandler playerDice,
+      [Inject (Id = DeckType.Player)] IDeck player,
       BoardFacade boardFacade)
     {
       _diceMover = diceMover;
       _diceRoller = diceRoller;
-      _playerHandler = playerHandler;
-      _playerDice = playerDice;
+      _player = player;
       _boardFacade = boardFacade;
     }
 
@@ -44,7 +43,7 @@ namespace Code.StateMachine
       _role = 2;
       RerollLabel();
       _boardFacade.Animator.SetTrigger(Show);
-      await _diceMover.ToBoard(_playerDice.PlayerDice);
+      //await _diceMover.ToBoard(_player.Card);
       await _diceRoller.Role();
 
       Subscribe();
@@ -70,7 +69,7 @@ namespace Code.StateMachine
     private async void Done()
     {
       Unsubscribe();
-      await _diceMover.ToCard(_playerDice.PlayerDice);
+      //await _diceMover.ToCard(_playerDice.PlayerDice);
       ChangeState?.Invoke(typeof(PlayerPick));
     }
 
@@ -90,8 +89,8 @@ namespace Code.StateMachine
 
     private void IgnoreClickObserver(bool flag)
     {
-      foreach (DiceFacade die in _playerDice.PlayerDice)
-        die.Observe.Ignore = flag;
+      //foreach (DiceFacade die in _playerDice.PlayerDice)
+      //  die.Observe.Ignore = flag;
     }
 
     private void RerollLabel() => 

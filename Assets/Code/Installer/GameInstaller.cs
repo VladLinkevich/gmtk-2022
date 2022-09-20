@@ -1,4 +1,5 @@
-﻿using Code.Facade;
+﻿using Code.Data;
+using Code.Facade;
 using Code.Game;
 using Code.Game.CardLogic;
 using Code.StateMachine;
@@ -13,7 +14,8 @@ namespace Code.Installer
     public override void InstallBindings()
     {
       BindInitializer();
-      
+
+      BindCardDeck();
       BindFactory();
       BindHandlers();
       BindStateMachine();
@@ -23,6 +25,21 @@ namespace Code.Installer
       BindWinObserver();
       BindInput();
       BindCardDestroyer();
+    }
+
+    private void BindCardDeck()
+    {
+      Container
+        .Bind<IDeck>()
+        .WithId(DeckType.Player)
+        .To<Deck>()
+        .AsTransient();
+
+      Container
+        .Bind<IDeck>()
+        .WithId(DeckType.Enemy)
+        .To<Deck>()
+        .AsTransient();
     }
 
     private void BindInitializer() =>
