@@ -12,6 +12,8 @@ namespace Code.Installer
     
     public override void InstallBindings()
     {
+      BindInitializer();
+      
       BindFactory();
       BindHandlers();
       BindStateMachine();
@@ -22,7 +24,14 @@ namespace Code.Installer
       BindInput();
       BindCardDestroyer();
     }
-    
+
+    private void BindInitializer() =>
+      Container
+        .Bind<IInitializable>()
+        .To<Initialiazer>()
+        .AsSingle()
+        .NonLazy();
+
     private void BindCardDestroyer()
     {
       Container
@@ -84,9 +93,9 @@ namespace Code.Installer
     private void BindStateMachine()
     {
       Container
-        .Bind<RoundStateMachine>()
-        .AsSingle()
-        .NonLazy();
+        .Bind<IStateMachine>()
+        .To<RoundStateMachine>()
+        .AsSingle();
 
       BindState();
     }

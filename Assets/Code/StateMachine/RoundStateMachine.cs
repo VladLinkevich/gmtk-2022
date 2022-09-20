@@ -4,10 +4,13 @@ using Code.Game;
 
 namespace Code.StateMachine
 {
-  public class RoundStateMachine
+  public interface IStateMachine
   {
-    private readonly WinState _winState;
+    void ChangeState(Type type);
+  }
 
+  public class RoundStateMachine : IStateMachine
+  {
     private readonly Dictionary<Type, IState> _states;
     private IState _currentState;
 
@@ -31,8 +34,8 @@ namespace Code.StateMachine
         {typeof(WinState), winState},
       };
     }
-    
-    private void ChangeState(Type type)
+
+    public void ChangeState(Type type)
     {
       ExitToCurrentState();
       EnterToState(type);
