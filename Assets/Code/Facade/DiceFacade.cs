@@ -54,6 +54,12 @@ namespace Code.Facade
       Collider.isTrigger = !flag;
     }
 
+    public void SavePositionAndRotation()
+    {
+      SaveRotation = transform.eulerAngles;
+      SavePosition = transform.position;
+    }
+
     private void UpdateSkill(ARollable rollable)
     {
       DieSideMatchInfo info = DieSides.GetDieSideMatchInfo();
@@ -62,12 +68,6 @@ namespace Code.Facade
 
     private void OnClick() => 
       Click?.Invoke(this);
-
-    public void SavePositionAndRotation()
-    {
-      SaveRotation = transform.eulerAngles;
-      SavePosition = transform.position;
-    }
 
 #if UNITY_EDITOR
 

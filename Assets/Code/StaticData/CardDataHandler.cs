@@ -8,7 +8,7 @@ namespace Code.StaticData
 {
   [CreateAssetMenu(fileName = "card_handler", menuName = "Data/CardHandler", order = 0)]
 
-  public class CardHandler : ScriptableObject
+  public class CardDataHandler : ScriptableObject
   {
     public List<CardData> Cards;
 

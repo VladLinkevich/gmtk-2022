@@ -8,7 +8,7 @@ namespace Code.StaticData
 {
   [CreateAssetMenu(fileName = "side_handler", menuName = "Data/SideHandler", order = 0)]
 
-  public class SideHandler : ScriptableObject
+  public class SidesDataHandler : ScriptableObject
   {
     public List<SideStaticData> Sides;
 

@@ -20,16 +20,16 @@ namespace Code.Game
 
     private readonly ICardDestroyer _cardDestroyer;
     private readonly IPlayerDeck _player;
-    private readonly IEnemyHandler _enemyHandler;
+    private readonly IEnemyDeck _enemy;
 
     public WinObserver(
       ICardDestroyer cardDestroyer,
       IPlayerDeck player,
-      IEnemyHandler enemyHandler)
+      IEnemyDeck enemy)
     {
       _cardDestroyer = cardDestroyer;
       _player = player;
-      _enemyHandler = enemyHandler;
+      _enemy = enemy;
       
       _cardDestroyer.Destroy += Observe;
     }
@@ -39,7 +39,7 @@ namespace Code.Game
       if (_player.Card.Count == 0) 
         Lose?.Invoke();
       
-      if (_enemyHandler.Card.Count == 0)
+      if (_enemy.Card.Count == 0)
       {
         int level = PlayerPrefs.GetInt("level", 0) + 1;
         PlayerPrefs.SetInt("level", level);
@@ -61,10 +61,10 @@ namespace Code.Game
 
     private void IsWin(CardFacade card)
     {
-      if (_enemyHandler.Card.Contains(card))
+      if (_enemy.Card.Contains(card))
       {
 
-        if (_enemyHandler.Card.Count == 0)
+        if (_enemy.Card.Count == 0)
         {
           Debug.Log("Win");
           int level = PlayerPrefs.GetInt("level", 0) + 1;

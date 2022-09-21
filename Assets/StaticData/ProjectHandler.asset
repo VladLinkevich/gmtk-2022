@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b23dbf534b240388fc85249ee623da0, type: 3}
   m_Name: ProjectHandler
   m_EditorClassIdentifier: 
-  CardHandler: {fileID: 11400000, guid: 5753c36fea5d1d248a4fcd09931b3f4c, type: 2}
-  SideHandler: {fileID: 11400000, guid: d51847f474915b34eb136fe830f60509, type: 2}
+  CardDataHandler: {fileID: 11400000, guid: 5753c36fea5d1d248a4fcd09931b3f4c, type: 2}
+  SidesDataHandler: {fileID: 11400000, guid: d51847f474915b34eb136fe830f60509, type: 2}

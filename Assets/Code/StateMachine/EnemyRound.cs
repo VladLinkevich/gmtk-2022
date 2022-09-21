@@ -9,32 +9,29 @@ namespace Code.StateMachine
     public event Action<Type> ChangeState;
     
     private readonly IDiceMover _diceMover;
-    private readonly IEnemyHandler _enemyHandler;
-    private readonly IEnemyDiceHandler _enemyDice;
+    private readonly IEnemyDeck _enemy;
     private readonly IDiceRoller _diceRoller;
     private readonly IPickTarget _pickTarget;
 
     public EnemyRound(
       IDiceMover diceMover,
       ICardPositioner cardPositioner,
-      IEnemyHandler enemyHandler,
-      IEnemyDiceHandler enemyDice,
+      IEnemyDeck enemy,
       IDiceRoller diceRoller,
       IPickTarget pickTarget)
     {
       _diceMover = diceMover;
-      _enemyHandler = enemyHandler;
-      _enemyDice = enemyDice;
+      _enemy = enemy;
       _diceRoller = diceRoller;
       _pickTarget = pickTarget;
     }
 
     public async void Enter()
     {
-      await _diceMover.ToBoard(_enemyDice.EnemyDice);
+      await _diceMover.ToBoard(_enemy.Card);
       await _diceRoller.Role();
-      await _diceMover.ToCard(_enemyDice.EnemyDice);
-      await _pickTarget.SelectTarget(_enemyHandler.Card);
+      await _diceMover.ToCard(_enemy.Card);
+      await _pickTarget.SelectTarget(_enemy.Card);
 
       ChangeState?.Invoke(typeof(PlayerRoll));
     }

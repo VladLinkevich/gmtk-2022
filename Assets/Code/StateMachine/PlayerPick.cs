@@ -12,7 +12,7 @@ namespace Code.StateMachine
   public class PlayerPick : IState, ITickable
   {
     private readonly IPlayerDeck _player;
-    private readonly IEnemyHandler _enemyHandler;
+    private readonly IEnemyDeck _enemy;
     private readonly IArrow _arrow;
     private readonly IWinObserver _winObserver;
     private readonly BoardFacade _boardFacade;
@@ -30,13 +30,13 @@ namespace Code.StateMachine
 
     public PlayerPick(
       IPlayerDeck player,
-      IEnemyHandler enemyHandler,
+      IEnemyDeck enemy,
       IArrow arrow,
       IWinObserver winObserver,
       BoardFacade boardFacade)
     {
       _player = player;
-      _enemyHandler = enemyHandler;
+      _enemy = enemy;
       _arrow = arrow;
       _winObserver = winObserver;
       _boardFacade = boardFacade;
@@ -135,7 +135,7 @@ namespace Code.StateMachine
       if (Physics.RaycastNonAlloc(ray, _result, 50, _cardMask) == 1)
       {
         CardFacade card = _result[0].transform.gameObject.GetComponentInParent<CardFacade>();
-        if (_enemyHandler.Card.Contains(card))
+        if (_enemy.Card.Contains(card))
         {
           card.HpBarFacade.Hit(_pickCard.DiceFacade.Current.Value.Get);
           UseCard(_pickCard);

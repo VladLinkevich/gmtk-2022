@@ -7,13 +7,13 @@ namespace Code.Installer
   [CreateAssetMenu(fileName = "ProjectHandler", menuName = "Data/ProjectHandler")]
   public class ProjectHandler : ScriptableObjectInstaller<ProjectHandler>
   {
-    public CardHandler CardHandler;
-    public SideHandler SideHandler;
+    public CardDataHandler CardDataHandler;
+    public SidesDataHandler SidesDataHandler;
 
     public override void InstallBindings()
     {
-      Container.BindInstance(CardHandler).IfNotBound();
-      Container.BindInstance(SideHandler).IfNotBound();
+      Container.BindInstance(CardDataHandler).IfNotBound();
+      Container.BindInstance(SidesDataHandler).IfNotBound();
     }
   }
 }

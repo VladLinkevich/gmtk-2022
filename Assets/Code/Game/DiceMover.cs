@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Code.Facade;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -11,8 +12,8 @@ namespace Code.Game
   public interface IDiceMover
   {
     List<DiceFacade> DiceOnBoard { get; }
-    UniTask ToBoard(List<DiceFacade> dice);
-    UniTask ToCard(List<DiceFacade> dice);
+    UniTask ToBoard(List<CardFacade> cards);
+    UniTask ToCard(List<CardFacade> cards);
   }
 
   public class DiceMover : IDiceMover
@@ -32,11 +33,11 @@ namespace Code.Game
       _settings = settings;
     }
 
-    public async UniTask ToBoard(List<DiceFacade> dice)
+    public async UniTask ToBoard(List<CardFacade> cards)
     {
       Tween tween = null;
       
-      foreach (DiceFacade die in dice)
+      foreach (DiceFacade die in cards.Select(card => card.DiceFacade))
       {
         DiceOnBoard.Add(die);
         die.Click += ToggleMove;
@@ -48,11 +49,11 @@ namespace Code.Game
       await tween;
     }
 
-    public async UniTask ToCard(List<DiceFacade> dice)
+    public async UniTask ToCard(List<CardFacade> cards)
     {
       Tween tween = null;
       
-      foreach (DiceFacade die in dice)
+      foreach (DiceFacade die in cards.Select(card => card.DiceFacade))
       {
         DiceOnBoard.Remove(die);
         die.ActivatePhysic(false);

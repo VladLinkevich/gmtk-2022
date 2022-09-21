@@ -13,14 +13,14 @@ namespace Code.Game
 
   public class ActionWriter : IActionWriter
   {
-    private readonly IEnemyHandler _enemyHandler;
+    private readonly IEnemyDeck _enemy;
     private readonly Dictionary<CardFacade, CardFacade> _actions = new Dictionary<CardFacade, CardFacade>();
 
 
     public ActionWriter(
-      IEnemyHandler enemyHandler)
+       IEnemyDeck enemy)
     {
-      _enemyHandler = enemyHandler;
+      _enemy = enemy;
     }
 
     public void Write(CardFacade from, CardFacade to)
@@ -55,7 +55,7 @@ namespace Code.Game
 
     private void Subscribe()
     {
-      foreach (CardFacade card in _enemyHandler.Card) 
+      foreach (CardFacade card in _enemy.Card) 
         card.Destroy += Clear;
     }
   }

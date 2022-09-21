@@ -9,7 +9,7 @@ namespace Code.Game
     
     public void Enter()
     {
-      
+      ChangeState?.Invoke(typeof(EnemyRound));   
     }
 
     public void Exit()
