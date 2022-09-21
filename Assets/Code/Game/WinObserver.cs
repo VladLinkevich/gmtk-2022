@@ -19,12 +19,12 @@ namespace Code.Game
     public event Action Lose;
 
     private readonly ICardDestroyer _cardDestroyer;
-    private readonly IDeck _player;
+    private readonly IPlayerDeck _player;
     private readonly IEnemyHandler _enemyHandler;
 
     public WinObserver(
       ICardDestroyer cardDestroyer,
-      [Inject (Id = DeckType.Player)]  IDeck player,
+      IPlayerDeck player,
       IEnemyHandler enemyHandler)
     {
       _cardDestroyer = cardDestroyer;

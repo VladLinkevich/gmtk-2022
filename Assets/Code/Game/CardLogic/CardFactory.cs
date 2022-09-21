@@ -10,7 +10,7 @@ namespace Code.Game.CardLogic
 {
   public interface ICardFactory
   {
-    CardFacade CreateCard(CardType type);
+    CardFacade CreateCard(CardType type, Transform root = null);
   }
 
   public interface IEnemyHandler
@@ -61,9 +61,9 @@ namespace Code.Game.CardLogic
       _root = new GameObject(nameof(CardFactory)).transform;
     }
 
-    public CardFacade CreateCard(CardType type)
+    public CardFacade CreateCard(CardType type, Transform root = null)
     {
-      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, _root);
+      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, root);
       CardFacade facade = SetupCard(prefab, type);
 
       return facade;

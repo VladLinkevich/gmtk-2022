@@ -12,12 +12,12 @@ namespace Code.Game
   {
     public event Action<Type> ChangeState;
     
-    private readonly  IDeck _player;
-    private readonly IDeck _enemy;
+    private readonly  IPlayerDeck _player;
+    private readonly IEnemyDeck _enemy;
 
     public LevelLoader(
-      [Inject (Id = DeckType.Player)] IDeck player,
-      [Inject (Id = DeckType.Enemy)] IDeck enemy)
+      IPlayerDeck player,
+      IEnemyDeck enemy)
     {
       _player = player;
       _enemy = enemy;

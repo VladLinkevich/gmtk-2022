@@ -1,11 +1,9 @@
 ﻿using System;
-using Code.Data;
 using Code.Facade;
 using Code.Game;
 using Code.Game.CardLogic;
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
 
 namespace Code.StateMachine
 {
@@ -13,7 +11,7 @@ namespace Code.StateMachine
   {
     private readonly IDiceMover _diceMover;
     private readonly IDiceRoller _diceRoller;
-    private readonly IDeck _player;
+    private readonly IPlayerDeck _player;
     private readonly BoardFacade _boardFacade;
     private static readonly int Show = Animator.StringToHash("show");
     private int _role;
@@ -22,7 +20,7 @@ namespace Code.StateMachine
     public PlayerRoll(
       IDiceMover diceMover,
       IDiceRoller diceRoller,
-      [Inject (Id = DeckType.Player)] IDeck player,
+      IPlayerDeck player,
       BoardFacade boardFacade)
     {
       _diceMover = diceMover;

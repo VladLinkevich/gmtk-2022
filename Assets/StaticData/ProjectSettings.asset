@@ -32,3 +32,9 @@ MonoBehaviour:
     DurationMove: 1.5
     DurationBetween: 0.5
     Color: {r: 0, g: 0.76862746, b: 1, a: 1}
+  PlayerDeck:
+    Position: {x: 0, y: -0.2, z: -3.7}
+    Rotation: {x: 90, y: 0, z: 0}
+  EnemyDeck:
+    Position: {x: 0, y: -0.2, z: 3.2}
+    Rotation: {x: 90, y: 0, z: 0}

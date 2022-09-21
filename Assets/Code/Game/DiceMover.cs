@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Code.Facade;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

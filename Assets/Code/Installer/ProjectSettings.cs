@@ -13,6 +13,8 @@ namespace Code.Installer
     public DiceMover.Settings DiceMover;
     public ObjectFactory.Settings ObjectFactory;
     public EnemyTargetSelecter.Settings PickTarget;
+    public PlayerDeck.Settings PlayerDeck;
+    public EnemyDeck.Settings EnemyDeck;
 
     public override void InstallBindings()
     {
@@ -21,6 +23,8 @@ namespace Code.Installer
       Container.BindInstance(DiceMover).IfNotBound();
       Container.BindInstance(ObjectFactory).IfNotBound();
       Container.BindInstance(PickTarget).IfNotBound();
+      Container.BindInstance(PlayerDeck).IfNotBound();
+      Container.BindInstance(EnemyDeck).IfNotBound();
     }
   }
 }

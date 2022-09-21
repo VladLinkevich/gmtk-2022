@@ -18,13 +18,13 @@ namespace Code.Game
   public class EnemyTargetSelecter : IPickTarget
   {
     private readonly IArrow _arrow;
-    private readonly IDeck _player;
+    private readonly IPlayerDeck _player;
     private readonly IActionWriter _actionWriter;
     private readonly Settings _settings;
 
     public EnemyTargetSelecter(
       IArrow arrow,
-      [Inject (Id = DeckType.Player)] IDeck player,
+      IPlayerDeck player,
       IActionWriter actionWriter,
       Settings settings)
     {

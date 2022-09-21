@@ -11,7 +11,7 @@ namespace Code.StateMachine
 {
   public class PlayerPick : IState, ITickable
   {
-    private readonly IDeck _player;
+    private readonly IPlayerDeck _player;
     private readonly IEnemyHandler _enemyHandler;
     private readonly IArrow _arrow;
     private readonly IWinObserver _winObserver;
@@ -29,7 +29,7 @@ namespace Code.StateMachine
     public event Action<Type> ChangeState;
 
     public PlayerPick(
-      [Inject (Id = DeckType.Player)] IDeck player,
+      IPlayerDeck player,
       IEnemyHandler enemyHandler,
       IArrow arrow,
       IWinObserver winObserver,

@@ -30,16 +30,14 @@ namespace Code.Installer
     private void BindCardDeck()
     {
       Container
-        .Bind<IDeck>()
-        .WithId(DeckType.Player)
-        .To<Deck>()
-        .AsTransient();
+        .Bind<IEnemyDeck>()
+        .To<EnemyDeck>()
+        .AsSingle();
 
       Container
-        .Bind<IDeck>()
-        .WithId(DeckType.Enemy)
-        .To<Deck>()
-        .AsTransient();
+        .Bind<IPlayerDeck>()
+        .To<PlayerDeck>()
+        .AsSingle();
     }
 
     private void BindInitializer() =>
