@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b566dabc6148739e0cbb3a8b8720eb, type: 3}
   m_Name: mana
   m_EditorClassIdentifier: 
-  Type: 33
+  Type: 8193
   Icon: {fileID: 21300000, guid: eb3fc31d758885549b3c24204c65df56, type: 3}

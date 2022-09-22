@@ -8,7 +8,6 @@ namespace Code.Installer
   [CreateAssetMenu(fileName = "ProjectSettings", menuName = "Data/ProjectSettings")]
   public class ProjectSettings : ScriptableObjectInstaller<ProjectSettings>
   {
-    public CardFactory.Settings CardFactory;
     public CardPositioner.Settings CardPositioner;
     public DiceMover.Settings DiceMover;
     public ObjectFactory.Settings ObjectFactory;
@@ -18,7 +17,6 @@ namespace Code.Installer
 
     public override void InstallBindings()
     {
-      Container.BindInstance(CardFactory).IfNotBound();
       Container.BindInstance(CardPositioner).IfNotBound();
       Container.BindInstance(DiceMover).IfNotBound();
       Container.BindInstance(ObjectFactory).IfNotBound();

@@ -17,15 +17,15 @@ MonoBehaviour:
   Color: {r: 0.63759345, g: 0.6704014, b: 0.6792453, a: 1}
   Hp: 5
   Sides:
-  - Type: 68
+  - Type: 16452
     Value: 2
-  - Type: 68
+  - Type: 16452
     Value: 2
-  - Type: 68
+  - Type: 32837
     Value: 1
   - Type: 0
     Value: 0
-  - Type: 133
+  - Type: 32901
     Value: 1
-  - Type: 68
+  - Type: 16452
     Value: 3

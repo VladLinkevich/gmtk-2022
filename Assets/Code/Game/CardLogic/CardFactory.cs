@@ -9,7 +9,7 @@ namespace Code.Game.CardLogic
 {
   public interface ICardFactory
   {
-    CardFacade CreateCard(CardType type, Transform root = null);
+    CardFacade CreateCard(GameObject instance, CardType type, Transform root = null);
   }
 
   public class CardFactory : ICardFactory
@@ -17,27 +17,24 @@ namespace Code.Game.CardLogic
     private readonly IResourceLoader _loader;
     private readonly CardDataHandler _cardsDataHandler;
     private readonly SidesDataHandler _sidesDataHandler;
-    private readonly Settings _settings;
 
     private Transform _root;
 
     public CardFactory(
       IResourceLoader loader,
       CardDataHandler cardsDataHandler,
-      SidesDataHandler sidesDataHandler,
-      Settings settings)
+      SidesDataHandler sidesDataHandler)
     {
       _loader = loader;
       _cardsDataHandler = cardsDataHandler;
       _sidesDataHandler = sidesDataHandler;
-      _settings = settings;
 
       CreateFactoryRoot();
     }
 
-    public CardFacade CreateCard(CardType type, Transform root = null)
+    public CardFacade CreateCard(GameObject instance, CardType type, Transform root = null)
     {
-      GameObject prefab = UnityEngine.Object.Instantiate(_settings.PlayerCard, root);
+      GameObject prefab = UnityEngine.Object.Instantiate(instance, root);
       CardFacade facade = SetupCard(prefab, type);
 
       return facade;
@@ -78,12 +75,5 @@ namespace Code.Game.CardLogic
 
     private void CreateFactoryRoot() => 
       _root = new GameObject(nameof(CardFactory)).transform;
-
-    [Serializable]
-    public class Settings
-    {
-      public GameObject PlayerCard;
-      public GameObject EnemyCard;
-    }
   }
 }

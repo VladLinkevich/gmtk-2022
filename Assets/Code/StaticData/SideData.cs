@@ -8,6 +8,7 @@ namespace Code.StaticData
   [Serializable]
   public class SideData
   {
+    [EnumToggleButtons]
     public SideType Type;
     
     [Range(1, 5)]

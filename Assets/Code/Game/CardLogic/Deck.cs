@@ -43,16 +43,16 @@ namespace Code.Game.CardLogic
 
     public void Add(CardType type)
     {
-      CardFacade facade = _cardFactory.CreateCard(type, _root);
-      
+      CardFacade facade = _cardFactory.CreateCard(_settings.Prefab, type, _root);
       Card.Add(facade);
-
       _cardPositioner.CalculatePosition(Card);
     }
 
     [Serializable]
     public class Settings
     {
+      public GameObject Prefab;
+
       public Vector3 Position;
       public Vector3 Rotation;
     }

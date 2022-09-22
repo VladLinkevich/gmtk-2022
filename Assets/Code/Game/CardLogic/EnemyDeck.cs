@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using Code.Facade;
 
 namespace Code.Game.CardLogic
 {
   public interface IEnemyDeck : IDeck
   {
+    
   }
   
   public class EnemyDeck : Deck, IEnemyDeck
   {
+    public List<EnemyCardFacade> Card;
+    
     public EnemyDeck(
       ICardFactory cardFactory,
       ICardPositioner cardPositioner,
@@ -16,6 +21,7 @@ namespace Code.Game.CardLogic
     {
     }
     
+
     [Serializable]
     public class Settings : Deck.Settings
     {

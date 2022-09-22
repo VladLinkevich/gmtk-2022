@@ -42,8 +42,10 @@ namespace Code.Game
         if (((SideAction) dice.Current.Type & SideAction.Attack) == SideAction.Attack)
         {
           CardFacade target = GetTarget(_player.Card);
+          
           await AnimateArrow(dice, target);
           _actionWriter.Write(card, target);
+          
           card.gameObject
             .GetComponent<EnemyTargetView>()
             .Setup(_arrow.Enemy, target.Transform.position);

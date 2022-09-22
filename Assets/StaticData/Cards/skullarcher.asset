@@ -17,7 +17,7 @@ MonoBehaviour:
   Color: {r: 0.9150943, g: 0.33339605, b: 0.28920433, a: 1}
   Hp: 2
   Sides:
-  - Type: 130
+  - Type: 32773
     Value: 2
   - Type: 0
     Value: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
     Value: 0
   - Type: 0
     Value: 0
-  - Type: 130
+  - Type: 32773
     Value: 1
-  - Type: 130
+  - Type: 32901
     Value: 1
