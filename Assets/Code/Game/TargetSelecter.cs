@@ -6,42 +6,38 @@ using Code.Game.CardLogic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
 
 namespace Code.Game
 {
   public interface IPickTarget
   {
-    UniTask SelectTarget(List<CardFacade> cards);
+    UniTask SelectTarget(List<CardFacade> cards, List<CardFacade> targets);
   }
 
-  public class EnemyTargetSelecter : IPickTarget
+  public class TargetSelecter : IPickTarget
   {
     private readonly IArrow _arrow;
-    private readonly IPlayerDeck _player;
     private readonly IActionWriter _actionWriter;
     private readonly Settings _settings;
 
-    public EnemyTargetSelecter(
+    public TargetSelecter(
       IArrow arrow,
-      IPlayerDeck player,
       IActionWriter actionWriter,
       Settings settings)
     {
       _arrow = arrow;
-      _player = player;
       _actionWriter = actionWriter;
       _settings = settings;
     }
 
-    public async UniTask SelectTarget(List<CardFacade> cards)
+    public async UniTask SelectTarget(List<CardFacade> cards, List<CardFacade> targets)
     {
       foreach (CardFacade card in cards)
       {
         DiceFacade dice = card.DiceFacade;
         if (((SideAction) dice.Current.Type & SideAction.Attack) == SideAction.Attack)
         {
-          CardFacade target = GetTarget(_player.Card);
+          CardFacade target = GetTarget(targets);
           
           await AnimateArrow(dice, target);
           _actionWriter.Write(card, target);
@@ -50,13 +46,6 @@ namespace Code.Game
             .GetComponent<EnemyTargetView>()
             .Setup(_arrow.Enemy, target.Transform.position);
         }
-      }
-
-      foreach (CardFacade card in cards)
-      {
-        card.gameObject
-          .GetComponent<EnemyTargetView>()
-          .Activate();
       }
     }
 

@@ -12,14 +12,16 @@ namespace Code.StateMachine
     private readonly IEnemyDeck _enemy;
     private readonly IDiceRoller _diceRoller;
     private readonly IPickTarget _pickTarget;
+    private IPlayerDeck _player;
 
     public EnemyRound(
       IDiceMover diceMover,
-      ICardPositioner cardPositioner,
       IEnemyDeck enemy,
+      IPlayerDeck player,
       IDiceRoller diceRoller,
       IPickTarget pickTarget)
     {
+      _player = player;
       _diceMover = diceMover;
       _enemy = enemy;
       _diceRoller = diceRoller;
@@ -31,7 +33,7 @@ namespace Code.StateMachine
       await _diceMover.ToBoard(_enemy.Card);
       await _diceRoller.Role();
       await _diceMover.ToCard(_enemy.Card);
-      await _pickTarget.SelectTarget(_enemy.Card);
+      await _pickTarget.SelectTarget(_enemy.Card, _player.Card);
 
       ChangeState?.Invoke(typeof(PlayerRoll));
     }

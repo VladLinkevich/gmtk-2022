@@ -65,7 +65,7 @@ namespace Code.Installer
     {
       Container
         .Bind<IPickTarget>()
-        .To<EnemyTargetSelecter>()
+        .To<TargetSelecter>()
         .AsSingle();
       
       Container

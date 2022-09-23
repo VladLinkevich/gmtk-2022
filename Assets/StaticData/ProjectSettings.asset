@@ -12,11 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57bbf286b4947a99fd7a61ae8a2cc55, type: 3}
   m_Name: ProjectSettings
   m_EditorClassIdentifier: 
-  CardFactory:
-    PlayerCard: {fileID: 126440770787781500, guid: 30c02af1f6921c24fb5e24964f1436cb,
-      type: 3}
-    EnemyCard: {fileID: 4408819614284572028, guid: 988c6e3a7cd75644eb03d1c8a004f92b,
-      type: 3}
   CardPositioner:
     Offset: 0.2
     Duration: 0.5
@@ -33,8 +28,11 @@ MonoBehaviour:
     DurationBetween: 0.5
     Color: {r: 0, g: 0.76862746, b: 1, a: 1}
   PlayerDeck:
+    Prefab: {fileID: 126440770787781500, guid: 30c02af1f6921c24fb5e24964f1436cb, type: 3}
     Position: {x: 0, y: -0.2, z: -3.7}
     Rotation: {x: 90, y: 0, z: 0}
   EnemyDeck:
-    Position: {x: 0, y: -0.2, z: 3.2}
+    Prefab: {fileID: 4408819614284572028, guid: 988c6e3a7cd75644eb03d1c8a004f92b,
+      type: 3}
+    Position: {x: 0, y: -0.2, z: 3.7}
     Rotation: {x: 90, y: 0, z: 0}

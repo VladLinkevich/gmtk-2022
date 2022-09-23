@@ -17,13 +17,13 @@ MonoBehaviour:
   Color: {r: 0.19999999, g: 0.6517553, b: 0.77254903, a: 1}
   Hp: 2
   Sides:
-  - Type: 8225
+  - Type: 536870913
     Value: 3
-  - Type: 8225
+  - Type: 536870913
     Value: 3
-  - Type: 8225
+  - Type: 536870913
     Value: 2
-  - Type: 8225
+  - Type: 536870913
     Value: 2
   - Type: 0
     Value: 0

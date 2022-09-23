@@ -11,7 +11,7 @@ namespace Code.Installer
     public CardPositioner.Settings CardPositioner;
     public DiceMover.Settings DiceMover;
     public ObjectFactory.Settings ObjectFactory;
-    public EnemyTargetSelecter.Settings PickTarget;
+    public TargetSelecter.Settings PickTarget;
     public PlayerDeck.Settings PlayerDeck;
     public EnemyDeck.Settings EnemyDeck;
 
