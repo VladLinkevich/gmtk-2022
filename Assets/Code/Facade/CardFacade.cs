@@ -17,5 +17,6 @@ namespace Code.Facade
     public MouseObserver MouseObserver;
 
     public Transform Transform => transform;
+    public Vector3 Position => transform.position;
   }
 }

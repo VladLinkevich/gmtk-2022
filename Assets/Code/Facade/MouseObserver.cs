@@ -7,10 +7,12 @@ namespace Code.Facade
   public class MouseObserver : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
     IPointerExitHandler
   {
-    public event Action Enter;
-    public event Action Exit;
-    public event Action Down;
-    public event Action Up;
+    public CardFacade Card;
+    
+    public event Action<CardFacade> Enter;
+    public event Action<CardFacade> Exit;
+    public event Action<CardFacade> Down;
+    public event Action<CardFacade> Up;
 
     public bool Ignore;
 
@@ -19,28 +21,28 @@ namespace Code.Facade
     {
       if (Ignore) return;
 
-      Down?.Invoke();
+      Down?.Invoke(Card);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
       if (Ignore) return;
 
-      Up?.Invoke();
+      Up?.Invoke(Card);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
       if (Ignore) return;
 
-      Enter?.Invoke();
+      Enter?.Invoke(Card);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
       if (Ignore) return;
 
-      Exit?.Invoke();
+      Exit?.Invoke(Card);
     }
   }
 }

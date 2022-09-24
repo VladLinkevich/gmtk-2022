@@ -5,6 +5,7 @@ using Code.Game;
 using Code.Game.CardLogic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Code.StateMachine
@@ -25,6 +26,9 @@ namespace Code.StateMachine
     private static readonly int Hide = Animator.StringToHash("hide");
     private static readonly int Pick = Animator.StringToHash("pick");
     private int _usedCard;
+    
+    private Vector3 _startPosition;
+    private Vector3 _nearEnemy;
 
     public event Action<Type> ChangeState;
 
@@ -49,12 +53,6 @@ namespace Code.StateMachine
 
     public void Enter()
     {
-      if (PlayerPrefs.HasKey("tutor_two") == false)
-      {
-        PlayerPrefs.SetInt("tutor_two", 99);
-        GameObject.FindGameObjectWithTag("tutor_two").transform.DOMoveX(0, 0.5f);
-      }
-      
       _boardFacade.Animator.SetTrigger(Pick);
 
       foreach (CardFacade card in _player.Card)
@@ -63,7 +61,7 @@ namespace Code.StateMachine
         {
           card.MouseObserver.Ignore = false;
           ++_usedCard;
-          // card.Down += PickCard;
+          card.MouseObserver.Down += PickCard;
         }
       }
 
@@ -95,28 +93,38 @@ namespace Code.StateMachine
       {
         Vector3 position = Vector3.zero;
 
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.RaycastNonAlloc(ray, _result, 50, _groundMask) == 1)
           position = _result[0].point;
 
         _arrow.Player.SetPositions(
           start0: _pickCard.transform.position,
-          end0: position);
+          end0: _nearEnemy + position - _startPosition);
       }
     }
 
     private void PickCard(CardFacade card)
     {
-     // card.Down -= PickCard;
-      //card.Up += ThrowCard;
+      card.MouseObserver.Down -= PickCard;
+      card.MouseObserver.Up += ThrowCard;
+      
       _pickCard = card;
       _arrow.Player.gameObject.SetActive(true);
+
+      Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+      if (Physics.RaycastNonAlloc(ray, _result, 50, _groundMask) == 1)
+        _startPosition = _result[0].point;
+      _nearEnemy = FindNearEnemy(card.Position);
+      
+      _arrow.Player.SetPositions(
+        start0: _pickCard.transform.position,
+        end0: _nearEnemy);
     }
 
     private void ThrowCard(CardFacade card)
     {
-      //card.Up -= ThrowCard;
-     // card.Down += PickCard;
+      card.MouseObserver.Up -= ThrowCard;
+      card.MouseObserver.Down += PickCard;
 
       if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Use)) != 0) 
         FindHitCard();
@@ -131,7 +139,7 @@ namespace Code.StateMachine
 
     private void FindHitCard()
     {
-      Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+      Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
       if (Physics.RaycastNonAlloc(ray, _result, 50, _cardMask) == 1)
       {
         CardFacade card = _result[0].transform.gameObject.GetComponentInParent<CardFacade>();
@@ -145,7 +153,7 @@ namespace Code.StateMachine
 
     private void FindPlayerCard()
     {
-      Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+      Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
       if (Physics.RaycastNonAlloc(ray, _result, 50, _cardMask) == 1)
       {
         CardFacade card = _result[0].transform.gameObject.GetComponentInParent<CardFacade>();
@@ -165,12 +173,30 @@ namespace Code.StateMachine
     private void UseCard(CardFacade card)
     {
       card.MouseObserver.Ignore = true;
-//      card.Down -= PickCard;
+      card.MouseObserver.Down -= PickCard;
       card.Character.color = Color.gray;
 
       --_usedCard;
       if (_usedCard == 0) 
         ChangeState?.Invoke(typeof(RoundEndAction));
+    }
+
+    private Vector3 FindNearEnemy(Vector3 position)
+    {
+      Vector3 near = position;
+      float minDistance = Single.MaxValue;
+
+      for (int i = 0, end = _enemy.Card.Count; i < end; ++i)
+      {
+        float distance = Vector3.Distance(_enemy.Card[i].Position, position);
+        if (minDistance > distance)
+        {
+          minDistance = distance;
+          near = _enemy.Card[i].Position;
+        }
+      }
+
+      return near;
     }
   }
 }

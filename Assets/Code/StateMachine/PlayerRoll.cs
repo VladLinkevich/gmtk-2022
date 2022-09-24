@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Code.Facade;
 using Code.Game;
 using Code.Game.CardLogic;
-using DG.Tweening;
 using UnityEngine;
 
 namespace Code.StateMachine
@@ -31,17 +31,10 @@ namespace Code.StateMachine
 
     public async void Enter()
     {
-      if (PlayerPrefs.HasKey("tutor_one") == false)
-      {
-        PlayerPrefs.SetInt("tutor_one", 99);
-        Transform transform = GameObject.FindGameObjectWithTag("tutor_one").transform;
-        transform.DOMoveX(0, 0.5f);
-      }
-      
       _role = 2;
       RerollLabel();
       _boardFacade.Animator.SetTrigger(Show);
-      //await _diceMover.ToBoard(_player.Card);
+      await _diceMover.ToBoard(_player.Card);
       await _diceRoller.Role();
 
       Subscribe();
@@ -67,13 +60,15 @@ namespace Code.StateMachine
     private async void Done()
     {
       Unsubscribe();
-      //await _diceMover.ToCard(_playerDice.PlayerDice);
+      
+      await _diceMover.ToCard(_player.Card);
       ChangeState?.Invoke(typeof(PlayerPick));
     }
 
     private void Subscribe()
     {
       IgnoreClickObserver(false);
+      
       _boardFacade.Reroll.Observer.Click += Reroll;
       _boardFacade.Done.Observer.Click += Done;
     }
@@ -81,14 +76,15 @@ namespace Code.StateMachine
     private void Unsubscribe()
     {
       IgnoreClickObserver(true);
+      
       _boardFacade.Reroll.Observer.Click -= Reroll;
       _boardFacade.Done.Observer.Click -= Done;
     }
 
     private void IgnoreClickObserver(bool flag)
     {
-      //foreach (DiceFacade die in _playerDice.PlayerDice)
-      //  die.Observe.Ignore = flag;
+      foreach (DiceFacade die in _player.Card.Select(card => card.DiceFacade))
+        die.Observe.Ignore = flag;
     }
 
     private void RerollLabel() => 
