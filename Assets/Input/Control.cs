@@ -81,6 +81,34 @@ public partial class @Control : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Card"",
+            ""id"": ""0df77086-a093-426e-9151-cd1e0d844237"",
+            ""actions"": [
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Value"",
+                    ""id"": ""70481f67-3c82-43b8-ba33-e5caa27eb930"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d2943c34-1ec5-4d86-8de6-a16043760f79"",
+                    ""path"": ""<Touchscreen>/primaryTouch/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touchscreen"",
+                    ""action"": ""Drag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -112,6 +140,9 @@ public partial class @Control : IInputActionCollection2, IDisposable
         m_Die = asset.FindActionMap("Die", throwIfNotFound: true);
         m_Die_Pick = m_Die.FindAction("Pick", throwIfNotFound: true);
         m_Die_Move = m_Die.FindAction("Move", throwIfNotFound: true);
+        // Card
+        m_Card = asset.FindActionMap("Card", throwIfNotFound: true);
+        m_Card_Drag = m_Card.FindAction("Drag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -208,6 +239,39 @@ public partial class @Control : IInputActionCollection2, IDisposable
         }
     }
     public DieActions @Die => new DieActions(this);
+
+    // Card
+    private readonly InputActionMap m_Card;
+    private ICardActions m_CardActionsCallbackInterface;
+    private readonly InputAction m_Card_Drag;
+    public struct CardActions
+    {
+        private @Control m_Wrapper;
+        public CardActions(@Control wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Drag => m_Wrapper.m_Card_Drag;
+        public InputActionMap Get() { return m_Wrapper.m_Card; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CardActions set) { return set.Get(); }
+        public void SetCallbacks(ICardActions instance)
+        {
+            if (m_Wrapper.m_CardActionsCallbackInterface != null)
+            {
+                @Drag.started -= m_Wrapper.m_CardActionsCallbackInterface.OnDrag;
+                @Drag.performed -= m_Wrapper.m_CardActionsCallbackInterface.OnDrag;
+                @Drag.canceled -= m_Wrapper.m_CardActionsCallbackInterface.OnDrag;
+            }
+            m_Wrapper.m_CardActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Drag.started += instance.OnDrag;
+                @Drag.performed += instance.OnDrag;
+                @Drag.canceled += instance.OnDrag;
+            }
+        }
+    }
+    public CardActions @Card => new CardActions(this);
     private int m_MouseSchemeIndex = -1;
     public InputControlScheme MouseScheme
     {
@@ -230,5 +294,9 @@ public partial class @Control : IInputActionCollection2, IDisposable
     {
         void OnPick(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface ICardActions
+    {
+        void OnDrag(InputAction.CallbackContext context);
     }
 }

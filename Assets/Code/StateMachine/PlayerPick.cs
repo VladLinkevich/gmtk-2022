@@ -10,12 +10,13 @@ using Zenject;
 
 namespace Code.StateMachine
 {
-  public class PlayerPick : IState, ITickable
+  public class PlayerPick : IState
   {
     private readonly IPlayerDeck _player;
     private readonly IEnemyDeck _enemy;
     private readonly IArrow _arrow;
     private readonly IWinObserver _winObserver;
+    private readonly Control _control;
     private readonly BoardFacade _boardFacade;
     private readonly Camera _camera;
     private readonly RaycastHit[] _result = new RaycastHit[1];
@@ -29,6 +30,7 @@ namespace Code.StateMachine
     
     private Vector3 _startPosition;
     private Vector3 _nearEnemy;
+    private Vector3 _drag;
 
     public event Action<Type> ChangeState;
 
@@ -37,12 +39,14 @@ namespace Code.StateMachine
       IEnemyDeck enemy,
       IArrow arrow,
       IWinObserver winObserver,
+      Control control,
       BoardFacade boardFacade)
     {
       _player = player;
       _enemy = enemy;
       _arrow = arrow;
       _winObserver = winObserver;
+      _control = control;
       _boardFacade = boardFacade;
 
       _camera = Camera.main;
@@ -87,44 +91,40 @@ namespace Code.StateMachine
     private void CompleteLevel() => 
       ChangeState?.Invoke(typeof(WinState));
 
-    public void Tick()
-    {
-      if (_pickCard != null)
-      {
-        Vector3 position = Vector3.zero;
-
-        Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.RaycastNonAlloc(ray, _result, 50, _groundMask) == 1)
-          position = _result[0].point;
-
-        _arrow.Player.SetPositions(
-          start0: _pickCard.transform.position,
-          end0: _nearEnemy + position - _startPosition);
-      }
-    }
-
     private void PickCard(CardFacade card)
     {
-      card.MouseObserver.Down -= PickCard;
       card.MouseObserver.Up += ThrowCard;
+      card.MouseObserver.Down -= PickCard;
+      
+      _control.Card.Drag.Enable();
+      _control.Card.Drag.performed += Draging;
       
       _pickCard = card;
       _arrow.Player.gameObject.SetActive(true);
-
-      Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-      if (Physics.RaycastNonAlloc(ray, _result, 50, _groundMask) == 1)
-        _startPosition = _result[0].point;
-      _nearEnemy = FindNearEnemy(card.Position);
+      _nearEnemy = OppositeEnemy(card.Position);
       
       _arrow.Player.SetPositions(
         start0: _pickCard.transform.position,
         end0: _nearEnemy);
     }
 
+    private void Draging(InputAction.CallbackContext drag)
+    {
+      Vector2 shift = drag.ReadValue<Vector2>();
+      _drag += new Vector3(shift.x, 0, shift.y) / Screen.height * 10;
+      
+      _arrow.Player.SetPositions(
+        start0: _pickCard.transform.position,
+        end0: _nearEnemy + _drag);
+    }
+
     private void ThrowCard(CardFacade card)
     {
-      card.MouseObserver.Up -= ThrowCard;
       card.MouseObserver.Down += PickCard;
+      card.MouseObserver.Up -= ThrowCard;
+      
+      _control.Card.Drag.Disable();
+      _control.Card.Drag.performed -= Draging;
 
       if (((SideAction) card.DiceFacade.Current.Type & (SideAction.Attack | SideAction.Use)) != 0) 
         FindHitCard();
@@ -181,7 +181,7 @@ namespace Code.StateMachine
         ChangeState?.Invoke(typeof(RoundEndAction));
     }
 
-    private Vector3 FindNearEnemy(Vector3 position)
+    private Vector3 OppositeEnemy(Vector3 position)
     {
       Vector3 near = position;
       float minDistance = Single.MaxValue;

@@ -59,6 +59,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Card",
+            "id": "0df77086-a093-426e-9151-cd1e0d844237",
+            "actions": [
+                {
+                    "name": "Drag",
+                    "type": "Value",
+                    "id": "70481f67-3c82-43b8-ba33-e5caa27eb930",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d2943c34-1ec5-4d86-8de6-a16043760f79",
+                    "path": "<Touchscreen>/primaryTouch/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

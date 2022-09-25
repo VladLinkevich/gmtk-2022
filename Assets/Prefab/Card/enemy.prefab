@@ -12,6 +12,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067215623452437727, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2764255990750144491, guid: a62480db424a8a84e990321e14922ca7,
         type: 3}
       propertyPath: m_RootOrder
@@ -66,6 +101,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827796774623548779, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b0c223db218d2a84797ba3e6489b08fd,
+        type: 3}
+    - target: {fileID: 8827796774623548779, guid: a62480db424a8a84e990321e14922ca7,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a62480db424a8a84e990321e14922ca7, type: 3}
