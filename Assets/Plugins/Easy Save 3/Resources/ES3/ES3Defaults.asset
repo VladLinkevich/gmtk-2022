@@ -35,10 +35,10 @@ MonoBehaviour:
     - Assembly-CSharp-firstpass
     - UniTask.Linq
     - UniTask.DOTween
-    - Sirenix.OdinInspector.CompatibilityLayer
     - UniTask.TextMeshPro
     - UniTask.Addressables
-    - Sirenix.OdinInspector.CompatibilityLayer.Editor
+    - AllIn1SpriteShaderAssembly
+    - sc.utilities.selectionhistory.editor
     - UniTask.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0

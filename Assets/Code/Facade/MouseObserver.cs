@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Code.Facade
 {
-  public class MouseObserver : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
-    IPointerExitHandler
+  public class MouseObserver : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
   {
     public CardFacade Card;
     
