@@ -31,15 +31,19 @@ MonoBehaviour:
     assemblyNames:
     - Zenject
     - UniTask
-    - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - UniTask.Linq
-    - UniTask.DOTween
-    - UniTask.TextMeshPro
-    - UniTask.Addressables
+    - Assembly-CSharp
+    - Febucci.TextAnimator.Runtime
     - AllIn1SpriteShaderAssembly
+    - UniTask.DOTween
+    - Febucci.TextAnimator.Demo.Runtime
+    - UniTask.TextMeshPro
     - sc.utilities.selectionhistory.editor
+    - UniTask.Addressables
+    - Febucci.TextAnimator.Editor
     - UniTask.Editor
+    - Febucci.TextAnimator.Demo.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
